@@ -20,6 +20,8 @@
 		5EB26CEE17EC5EEB00F0971C /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5EB26CCA17EC5EEB00F0971C /* Foundation.framework */; };
 		5EB26CEF17EC5EEB00F0971C /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5EB26CCE17EC5EEB00F0971C /* UIKit.framework */; };
 		5EB26D0317EC642000F0971C /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 5EB26D0217EC642000F0971C /* Images.xcassets */; };
+		5EE9A9BB17EC68960031B75E /* CustomIOS7AlertView.m in Sources */ = {isa = PBXBuildFile; fileRef = 5EE9A9BA17EC68960031B75E /* CustomIOS7AlertView.m */; };
+		5EE9A9BE17EC7EA60031B75E /* demo.png in Resources */ = {isa = PBXBuildFile; fileRef = 5EE9A9BD17EC7EA60031B75E /* demo.png */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -50,6 +52,9 @@
 		5EB26CEB17EC5EEB00F0971C /* CustomIOS7AlertViewTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = CustomIOS7AlertViewTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		5EB26CEC17EC5EEB00F0971C /* XCTest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCTest.framework; path = Library/Frameworks/XCTest.framework; sourceTree = DEVELOPER_DIR; };
 		5EB26D0217EC642000F0971C /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
+		5EE9A9B917EC68960031B75E /* CustomIOS7AlertView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CustomIOS7AlertView.h; sourceTree = "<group>"; };
+		5EE9A9BA17EC68960031B75E /* CustomIOS7AlertView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CustomIOS7AlertView.m; sourceTree = "<group>"; };
+		5EE9A9BD17EC7EA60031B75E /* demo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = demo.png; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -108,6 +113,7 @@
 		5EB26CD017EC5EEB00F0971C /* CustomIOS7AlertView */ = {
 			isa = PBXGroup;
 			children = (
+				5EE9A9B817EC68650031B75E /* View */,
 				5EB26CD917EC5EEB00F0971C /* AppDelegate.h */,
 				5EB26CDA17EC5EEB00F0971C /* AppDelegate.m */,
 				5EB26CE217EC5EEB00F0971C /* ViewController.h */,
@@ -121,6 +127,7 @@
 		5EB26CD117EC5EEB00F0971C /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				5EE9A9BC17EC7EA00031B75E /* Resources */,
 				5EB26CDC17EC5EEB00F0971C /* Main_iPhone.storyboard */,
 				5EB26CDF17EC5EEB00F0971C /* Main_iPad.storyboard */,
 				5EB26CD217EC5EEB00F0971C /* CustomIOS7AlertView-Info.plist */,
@@ -129,6 +136,23 @@
 				5EB26CD817EC5EEB00F0971C /* CustomIOS7AlertView-Prefix.pch */,
 			);
 			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		5EE9A9B817EC68650031B75E /* View */ = {
+			isa = PBXGroup;
+			children = (
+				5EE9A9B917EC68960031B75E /* CustomIOS7AlertView.h */,
+				5EE9A9BA17EC68960031B75E /* CustomIOS7AlertView.m */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		5EE9A9BC17EC7EA00031B75E /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				5EE9A9BD17EC7EA60031B75E /* demo.png */,
+			);
+			path = Resources;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -208,6 +232,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				5EB26CE117EC5EEB00F0971C /* Main_iPad.storyboard in Resources */,
+				5EE9A9BE17EC7EA60031B75E /* demo.png in Resources */,
 				5EB26D0317EC642000F0971C /* Images.xcassets in Resources */,
 				5EB26CDE17EC5EEB00F0971C /* Main_iPhone.storyboard in Resources */,
 				5EB26CD517EC5EEB00F0971C /* InfoPlist.strings in Resources */,
@@ -228,6 +253,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5EE9A9BB17EC68960031B75E /* CustomIOS7AlertView.m in Sources */,
 				5EB26CE417EC5EEB00F0971C /* ViewController.m in Sources */,
 				5EB26CDB17EC5EEB00F0971C /* AppDelegate.m in Sources */,
 				5EB26CD717EC5EEB00F0971C /* main.m in Sources */,
