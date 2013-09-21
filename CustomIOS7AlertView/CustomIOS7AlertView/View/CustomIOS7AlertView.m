@@ -11,16 +11,23 @@
 @implementation CustomIOS7AlertView
 
 @synthesize parentView, containerView, dialogView, buttonView;
+@synthesize delegate;
+@synthesize buttonTitles;
 
-CGFloat buttonHeight = 50;
-CGFloat buttonSpacerHeight = 1;
-CGFloat cornerRadius = 7;
+CGFloat static defaultButtonHeight = 50;
+CGFloat static defaultButtonSpacerHeight = 1;
+CGFloat static cornerRadius = 7;
+
+CGFloat buttonHeight = 0;
+CGFloat buttonSpacerHeight = 0;
 
 - (id)initWithParentView: (UIView *)_parentView
 {
     self = [super initWithFrame:_parentView.frame];
     if (self) {
         parentView = _parentView;
+        delegate = self;
+        buttonTitles = [NSMutableArray arrayWithObject:@"Close"];
     }
     return self;
 }
@@ -48,8 +55,20 @@ CGFloat cornerRadius = 7;
      ];
 }
 
+- (void)setDelegate: (id)_delegate
+{
+    delegate = _delegate;
+}
+
+// Default button behaviour
+- (IBAction)customIOS7dialogButtonTouchUpInside:(id)sender
+{
+    NSLog(@"Button Clicked! %d", [sender tag]);
+    [self close];
+}
+
 // Dialog close animation then cleaning and removing the view from the parent
-- (IBAction)closeButtonTouchUpInside: (id)sender
+- (void)close
 {
     dialogView.layer.transform = CATransform3DMakeScale(1, 1, 1);
     dialogView.layer.opacity = 1.0f;
@@ -77,6 +96,14 @@ CGFloat cornerRadius = 7;
 // Creates the container view here: create the dialog, then add the custom content and buttons
 - (UIView *)createContainerView
 {
+    if ([buttonTitles count] > 0) {
+        buttonHeight = defaultButtonHeight;
+        buttonSpacerHeight = defaultButtonSpacerHeight;
+    } else {
+        buttonHeight = 0;
+        buttonSpacerHeight = 0;
+    }
+
     if (containerView == NULL) {
         containerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 300, 150)];
     }
@@ -135,18 +162,28 @@ CGFloat cornerRadius = 7;
     return dialogContainer;
 }
 
-// TODO this code should be easier to override and a lot better too
 - (void)addButtonsToView: (UIView *)container
 {
-    UIButton *closeButton = [UIButton buttonWithType:UIButtonTypeCustom];
-    [closeButton setFrame:CGRectMake(0, container.bounds.size.height - buttonHeight, container.bounds.size.width, buttonHeight)];
-    [closeButton addTarget:self action:@selector(closeButtonTouchUpInside:) forControlEvents:UIControlEventTouchUpInside];
-    [closeButton setTitle:@"Close" forState:UIControlStateNormal];
-    [closeButton setTitleColor:[UIColor colorWithRed:0.0f green:0.5f blue:1.0f alpha:1.0f] forState:UIControlStateNormal];
-    [closeButton setTitleColor:[UIColor colorWithRed:0.2f green:0.2f blue:0.2f alpha:0.5f] forState:UIControlStateHighlighted];
-    [closeButton.titleLabel setFont:[UIFont boldSystemFontOfSize:14.0f]];
-    [closeButton.layer setCornerRadius:cornerRadius];
-    [container addSubview:closeButton];
+    CGFloat buttonWidth = container.bounds.size.width / [buttonTitles count];
+
+    for (int i=0; i<[buttonTitles count]; i++) {
+
+        UIButton *closeButton = [UIButton buttonWithType:UIButtonTypeCustom];
+
+        [closeButton setFrame:CGRectMake(i * buttonWidth, container.bounds.size.height - buttonHeight, buttonWidth, buttonHeight)];
+
+        [closeButton addTarget:delegate action:@selector(customIOS7dialogButtonTouchUpInside:) forControlEvents:UIControlEventTouchUpInside];
+        [closeButton setTag:i];
+
+        [closeButton setTitle:[buttonTitles objectAtIndex:i] forState:UIControlStateNormal];
+        [closeButton setTitleColor:[UIColor colorWithRed:0.0f green:0.5f blue:1.0f alpha:1.0f] forState:UIControlStateNormal];
+        [closeButton setTitleColor:[UIColor colorWithRed:0.2f green:0.2f blue:0.2f alpha:0.5f] forState:UIControlStateHighlighted];
+        [closeButton.titleLabel setFont:[UIFont boldSystemFontOfSize:14.0f]];
+        [closeButton.layer setCornerRadius:cornerRadius];
+
+        [container addSubview:closeButton];
+    }
+
 }
 
 @end

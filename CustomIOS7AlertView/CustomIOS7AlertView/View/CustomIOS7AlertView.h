@@ -15,7 +15,14 @@
 @property (nonatomic, retain) UIView *containerView; // Container within the dialog (place your ui elements here)
 @property (nonatomic, retain) UIView *buttonView;    // Buttons on the bottom of the dialog
 
+@property (nonatomic, assign) id delegate;
+@property (nonatomic, retain) NSMutableArray *buttonTitles;
+
 - (id)initWithParentView: (UIView *)_parentView;
 - (void)show;
+- (void)close;
+- (void)setButtonTitles: (NSMutableArray *)buttonTitles;
+
+- (IBAction)customIOS7dialogButtonTouchUpInside:(id)sender;
 
 @end
