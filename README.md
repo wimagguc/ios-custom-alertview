@@ -1,6 +1,6 @@
 # Custom iOS7 AlertView
 
-`v0.2`
+`v0.3`
 
 The addSubview is not available in UIAlertView in iOS7 any more. The view hierarchy for this class is private and must not be modified.
 
@@ -70,7 +70,7 @@ As simple as adding the following files to your project:
     ```
     - (void)customIOS7dialogButtonTouchUpInside: (CustomIOS7AlertView *)alertView clickedButtonAtIndex: (NSInteger)buttonIndex
     {
-        NSLog(@"Button at position %d is clicked on alertView %d.",         buttonIndex, [alertView tag]);
+        NSLog(@"Button at position %d is clicked on alertView %d.", buttonIndex, [alertView tag]);
     }
     ```
 
@@ -83,7 +83,31 @@ This is a really quick implementation, and there are a few things missing:
 
 ## License
 
-Use it as is, show me if you did something cool. Also, feel free to push back anything you think is useful for the project.
+**Please feel free to push back anything you think is useful for the project.**
+
+`License info is here for request. Please suggest a better one if you are familiar with copyright.`
+
+Copyright (c) 2013 Richard Dancsi
+
+Lincesed under [The MIT License](http://opensource.org/licenses/MIT) (MIT)
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in
+all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+THE SOFTWARE.
 
 ## Other projects
 
