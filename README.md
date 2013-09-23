@@ -68,9 +68,9 @@ As simple as adding the following files to your project:
     Then add the delegate methods:
 
     ```
-    - (IBAction)customIOS7dialogButtonTouchUpInside:(id)sender
+    - (void)customIOS7dialogButtonTouchUpInside: (CustomIOS7AlertView *)alertView clickedButtonAtIndex: (NSInteger)buttonIndex
     {
-        NSLog(@"Button at position %d is clicked.", [sender tag]);
+        NSLog(@"Button at position %d is clicked on alertView %d.",         buttonIndex, [alertView tag]);
     }
     ```
 

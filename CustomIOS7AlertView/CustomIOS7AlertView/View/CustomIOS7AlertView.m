@@ -60,10 +60,16 @@ CGFloat buttonSpacerHeight = 0;
     delegate = _delegate;
 }
 
-// Default button behaviour
+// Button has touched
 - (IBAction)customIOS7dialogButtonTouchUpInside:(id)sender
 {
-    NSLog(@"Button Clicked! %d", [sender tag]);
+    [delegate customIOS7dialogButtonTouchUpInside:self clickedButtonAtIndex:[sender tag]];
+}
+
+// Default button behaviour
+- (void)customIOS7dialogButtonTouchUpInside: (CustomIOS7AlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
+{
+    NSLog(@"Button Clicked! %d, %d", buttonIndex, [alertView tag]);
     [self close];
 }
 
@@ -172,7 +178,7 @@ CGFloat buttonSpacerHeight = 0;
 
         [closeButton setFrame:CGRectMake(i * buttonWidth, container.bounds.size.height - buttonHeight, buttonWidth, buttonHeight)];
 
-        [closeButton addTarget:delegate action:@selector(customIOS7dialogButtonTouchUpInside:) forControlEvents:UIControlEventTouchUpInside];
+        [closeButton addTarget:self action:@selector(customIOS7dialogButtonTouchUpInside:) forControlEvents:UIControlEventTouchUpInside];
         [closeButton setTag:i];
 
         [closeButton setTitle:[buttonTitles objectAtIndex:i] forState:UIControlStateNormal];
