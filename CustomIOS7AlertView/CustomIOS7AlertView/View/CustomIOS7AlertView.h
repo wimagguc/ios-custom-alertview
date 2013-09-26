@@ -22,6 +22,9 @@
 @property (nonatomic, retain) NSMutableArray *buttonTitles;
 
 - (id)initWithParentView: (UIView *)_parentView;
+- (id)initWithParentView:(UIView *)_parentView
+           motionEffects:(BOOL)motionEffects;
+
 - (void)show;
 - (void)close;
 - (void)setButtonTitles: (NSMutableArray *)buttonTitles;

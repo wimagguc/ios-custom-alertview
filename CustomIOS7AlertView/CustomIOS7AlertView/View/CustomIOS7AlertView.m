@@ -26,13 +26,25 @@ CGFloat buttonSpacerHeight = 0;
 
 - (id)initWithParentView: (UIView *)_parentView
 {
-    self = [super initWithFrame:_parentView.frame];
-    if (self) {
-        parentView = _parentView;
-        delegate = self;
-        buttonTitles = [NSMutableArray arrayWithObject:@"Close"];
+  return [self initWithParentView:_parentView
+                    motionEffects:YES];
+}
+
+- (id)initWithParentView:(UIView *)_parentView
+           motionEffects:(BOOL)motionEffects
+{
+  self = [super initWithFrame:_parentView.frame];
+
+  if (self) {
+    parentView = _parentView;
+    delegate = self;
+    buttonTitles = [NSMutableArray arrayWithObject:@"Close"];
+    
+    if (motionEffects) {
+      [self applyMotionEffect];
     }
-    return self;
+  }
+  return self;
 }
 
 // Create the dialog view, and animate opening the dialog
@@ -192,7 +204,24 @@ CGFloat buttonSpacerHeight = 0;
 
         [container addSubview:closeButton];
     }
+}
 
+// Add motion effects
+- (void)applyMotionEffect {
+  UIInterpolatingMotionEffect *horizontalEffect = [[UIInterpolatingMotionEffect alloc] initWithKeyPath:@"center.x"
+                                                                                                  type:UIInterpolatingMotionEffectTypeTiltAlongHorizontalAxis];
+  horizontalEffect.minimumRelativeValue = @(-10.);
+  horizontalEffect.maximumRelativeValue = @( 10.);
+  
+  UIInterpolatingMotionEffect *verticalEffect = [[UIInterpolatingMotionEffect alloc] initWithKeyPath:@"center.y"
+                                                                                                type:UIInterpolatingMotionEffectTypeTiltAlongVerticalAxis];
+  verticalEffect.minimumRelativeValue = @(-10.);
+  verticalEffect.maximumRelativeValue = @( 10.);
+  
+  UIMotionEffectGroup *motionEffectGroup = [[UIMotionEffectGroup alloc] init];
+  motionEffectGroup.motionEffects = @[horizontalEffect, verticalEffect];
+  
+  [self addMotionEffect:motionEffectGroup];
 }
 
 @end
