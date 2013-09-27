@@ -16,6 +16,7 @@
 @synthesize parentView, containerView, dialogView, buttonView;
 @synthesize delegate;
 @synthesize buttonTitles;
+@synthesize useMotionEffects;
 
 CGFloat static defaultButtonHeight = 50;
 CGFloat static defaultButtonSpacerHeight = 1;
@@ -26,11 +27,20 @@ CGFloat buttonSpacerHeight = 0;
 
 - (id)initWithParentView: (UIView *)_parentView
 {
+    return [self initWithParentView:_parentView
+                   useMotionEffects:YES];
+}
+
+- (id)initWithParentView:(UIView *)_parentView
+        useMotionEffects:(BOOL)_useMotionEffects
+{
     self = [super initWithFrame:_parentView.frame];
+    
     if (self) {
         parentView = _parentView;
         delegate = self;
         buttonTitles = [NSMutableArray arrayWithObject:@"Close"];
+        useMotionEffects = _useMotionEffects;
     }
     return self;
 }
@@ -40,6 +50,9 @@ CGFloat buttonSpacerHeight = 0;
 {
     dialogView = [self createContainerView];
 
+    if (useMotionEffects)
+        [self applyMotionEffects];
+    
     dialogView.layer.opacity = 0.5f;
     dialogView.layer.transform = CATransform3DMakeScale(1.3f, 1.3f, 1.0);
 
@@ -192,7 +205,29 @@ CGFloat buttonSpacerHeight = 0;
 
         [container addSubview:closeButton];
     }
+}
 
+// Add motion effects
+- (void)applyMotionEffects {
+    if (floor(NSFoundationVersionNumber) <= NSFoundationVersionNumber_iOS_6_1)
+        return;
+    
+    static const CGFloat effectExtent = 10.;
+    
+    UIInterpolatingMotionEffect *horizontalEffect = [[UIInterpolatingMotionEffect alloc] initWithKeyPath:@"center.x"
+                                                                                                    type:UIInterpolatingMotionEffectTypeTiltAlongHorizontalAxis];
+  horizontalEffect.minimumRelativeValue = @(-effectExtent);
+  horizontalEffect.maximumRelativeValue = @( effectExtent);
+  
+  UIInterpolatingMotionEffect *verticalEffect = [[UIInterpolatingMotionEffect alloc] initWithKeyPath:@"center.y"
+                                                                                                type:UIInterpolatingMotionEffectTypeTiltAlongVerticalAxis];
+  verticalEffect.minimumRelativeValue = @(-effectExtent);
+  verticalEffect.maximumRelativeValue = @( effectExtent);
+  
+  UIMotionEffectGroup *motionEffectGroup = [[UIMotionEffectGroup alloc] init];
+  motionEffectGroup.motionEffects = @[horizontalEffect, verticalEffect];
+  
+  [dialogView addMotionEffect:motionEffectGroup];
 }
 
 @end
