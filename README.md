@@ -1,6 +1,6 @@
 # Custom iOS7 AlertView
 
-`v0.3`
+`v0.4`
 
 The addSubview is not available in UIAlertView in iOS7 any more. The view hierarchy for this class is private and must not be modified.
 
@@ -57,6 +57,12 @@ As simple as adding the following files to your project:
     [alertView setButtonTitles:NULL];
     ```
 
+* You can enable or disable the iOS7 parallax effects on the alert view
+
+    ```
+    [alertView setUseMotionEffects:TRUE];
+    ```
+
 * Handle button clicks with a custom delegate
 
     First, set the delegate:
@@ -80,6 +86,10 @@ This is a really quick implementation, and there are a few things missing:
 
 * Better rotation support (works with landscape and portrait mode too, so the current best practise is to re-open the same dialog once the screen is rotated)
 * Adding more buttons: they don't exactly match the look with that of on iOS7
+
+## Special thanks to
+
+[@dingosky](https://github.com/dingosky) for his work on the parallax effects code.
 
 ## License
 

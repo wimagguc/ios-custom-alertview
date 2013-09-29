@@ -45,8 +45,10 @@
     // Add some custom content to the alert view
     [alertView setContainerView:[self createDemoView]];
 
+    // Modify the parameters
     [alertView setButtonTitles:[NSMutableArray arrayWithObjects:@"Close1", @"Close2", @"Close3", nil]];
     [alertView setDelegate:self];
+    [alertView setUseMotionEffects:true];
 
     // And launch the dialog
     [alertView show];
@@ -55,6 +57,7 @@
 - (void)customIOS7dialogButtonTouchUpInside: (CustomIOS7AlertView *)alertView clickedButtonAtIndex: (NSInteger)buttonIndex
 {
     NSLog(@"Button at position %d is clicked on alertView %d.", buttonIndex, [alertView tag]);
+    [alertView close];
 }
 
 - (UIView *)createDemoView

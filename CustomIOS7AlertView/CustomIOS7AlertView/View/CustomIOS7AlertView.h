@@ -23,8 +23,6 @@
 @property (nonatomic, assign) BOOL useMotionEffects;
 
 - (id)initWithParentView: (UIView *)_parentView;
-- (id)initWithParentView:(UIView *)_parentView
-        useMotionEffects:(BOOL)useMotionEffects;
 
 - (void)show;
 - (void)close;

@@ -28,19 +28,12 @@ CGFloat buttonSpacerHeight = 0;
 
 - (id)initWithParentView: (UIView *)_parentView
 {
-    return [self initWithParentView:_parentView
-                   useMotionEffects:YES];
-}
-
-- (id)initWithParentView:(UIView *)_parentView
-        useMotionEffects:(BOOL)_useMotionEffects
-{
     self = [super initWithFrame:_parentView.frame];
     
     if (self) {
         parentView = _parentView;
         delegate = self;
-        useMotionEffects = _useMotionEffects;
+        useMotionEffects = false;
         buttonTitles = @[@"Close"];
     }
     return self;
@@ -51,9 +44,10 @@ CGFloat buttonSpacerHeight = 0;
 {
     dialogView = [self createContainerView];
 
-    if (useMotionEffects)
+    if (useMotionEffects) {
         [self applyMotionEffects];
-    
+    }
+
     dialogView.layer.opacity = 0.5f;
     dialogView.layer.transform = CATransform3DMakeScale(1.3f, 1.3f, 1.0);
 
