@@ -10,7 +10,6 @@
 //
 
 #import "ViewController.h"
-#import "CustomIOS7AlertView.h"
 
 @interface ViewController ()
 
