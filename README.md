@@ -80,6 +80,21 @@ As simple as adding the following files to your project:
     }
     ```
 
+* Handle button clicks with a code block
+
+    ```
+    [alertView setOnButtonTouchUpInside:^(CustomIOS7AlertView *alertView, int buttonIndex) {
+        NSLog(@"Block: Button at position %d is clicked on alertView %d.", buttonIndex, [alertView tag]);
+        [alertView close];
+    }];
+    ```
+
+    You can also disable all other delegates by:
+
+    ```
+[alertView setDelegate:self];
+    ```
+
 ## Todos
 
 This is a really quick implementation, and there are a few things missing:
@@ -90,6 +105,7 @@ This is a really quick implementation, and there are a few things missing:
 ## Special thanks to
 
 [@dingosky](https://github.com/dingosky) for his work on the parallax effects code.
+[@raspu](https://github.com/raspu) for his work on the protocol delegates, iOS6 support and onButtonClick blocks
 
 ## License
 
