@@ -10,7 +10,8 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "CustomIOS7AlertView.h"
 
-@interface ViewController : UIViewController
+@interface ViewController : UIViewController<CustomIOS7AlertViewDelegate>
 
 @end

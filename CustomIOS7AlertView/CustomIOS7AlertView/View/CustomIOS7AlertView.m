@@ -10,6 +10,7 @@
 //
 
 #import "CustomIOS7AlertView.h"
+#import <QuartzCore/QuartzCore.h>
 
 const static CGFloat kCustomIOS7AlertViewDefaultButtonHeight       = 50;
 const static CGFloat kCustomIOS7AlertViewDefaultButtonSpacerHeight = 1;
@@ -21,7 +22,7 @@ const static CGFloat kCustomIOS7MotionEffectExtent                 = 10.0;
 CGFloat buttonHeight = 0;
 CGFloat buttonSpacerHeight = 0;
 
-@synthesize parentView, containerView, dialogView, buttonView;
+@synthesize parentView, containerView, dialogView, buttonView, onButtonTouchUpInside;
 @synthesize delegate;
 @synthesize buttonTitles;
 @synthesize useMotionEffects;
@@ -44,9 +45,11 @@ CGFloat buttonSpacerHeight = 0;
 {
     dialogView = [self createContainerView];
 
+#if (defined(__IPHONE_7_0))
     if (useMotionEffects) {
         [self applyMotionEffects];
     }
+#endif
 
     dialogView.layer.opacity = 0.5f;
     dialogView.layer.transform = CATransform3DMakeScale(1.3f, 1.3f, 1.0);
@@ -69,7 +72,13 @@ CGFloat buttonSpacerHeight = 0;
 // Button has touched
 - (IBAction)customIOS7dialogButtonTouchUpInside:(id)sender
 {
-    [delegate customIOS7dialogButtonTouchUpInside:self clickedButtonAtIndex:[sender tag]];
+    if (delegate != NULL) {
+        [delegate customIOS7dialogButtonTouchUpInside:self clickedButtonAtIndex:[sender tag]];
+    }
+
+    if (onButtonTouchUpInside != NULL) {
+        onButtonTouchUpInside(self, [sender tag]);
+    }
 }
 
 // Default button behaviour
@@ -199,6 +208,7 @@ CGFloat buttonSpacerHeight = 0;
     }
 }
 
+#if (defined(__IPHONE_7_0))
 // Add motion effects
 - (void)applyMotionEffects {
 
@@ -221,5 +231,6 @@ CGFloat buttonSpacerHeight = 0;
 
     [dialogView addMotionEffect:motionEffectGroup];
 }
+#endif
 
 @end
