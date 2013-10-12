@@ -1,6 +1,6 @@
 # Custom iOS7 AlertView
 
-`v0.4`
+`v0.5`
 
 The addSubview is not available in UIAlertView in iOS7 any more. The view hierarchy for this class is private and must not be modified.
 
@@ -15,12 +15,16 @@ As simple as adding the following files to your project:
 * CustomIOS7AlertView.h
 * CustomIOS7AlertView.m
 
+## Change notes
+
+* A new `init` method is added in which you don't have to pass on the parent view any more. It's easy to migrate to this one, so in case it works just use this new init function. If it fails, please add an issue here so that I can track down the bugs.
+
 ## Quick start guide
 
-1. Create the UIView object. (Passing the whole parent view, because some calculations are needed: the dialog comes in the middle etc.)
+1. Create the UIView object `changed`
 
     ```
-    CustomIOS7AlertView *alertView = [[CustomIOS7AlertView alloc] initWithParentView:self.view];
+    CustomIOS7AlertView *alertView = [[CustomIOS7AlertView alloc] init];
     ```
   
 2. Add some custom content to the alert view (optional)
@@ -95,17 +99,28 @@ As simple as adding the following files to your project:
 [alertView setDelegate:self];
     ```
 
+* You can pass a parent view while initialise:
+
+    ```
+    CustomIOS7AlertView *alertView = [[CustomIOS7AlertView alloc] initWithParentView:self.view];
+    ```
+
+    In this case the alertView will be attached to the parent view - if you don't pass any, we will try to add the view to the top most view in the hierarchy.
+
 ## Todos
 
 This is a really quick implementation, and there are a few things missing:
 
-* Better rotation support (works with landscape and portrait mode too, so the current best practise is to re-open the same dialog once the screen is rotated)
+* Even better rotation support (works with landscape and portrait mode too, so the current best practise is to re-open the same dialog once the screen is rotated)
+
 * Adding more buttons: they don't exactly match the look with that of on iOS7
 
 ## Special thanks to
 
-[@dingosky](https://github.com/dingosky) for his work on the parallax effects code.
-[@raspu](https://github.com/raspu) for his work on the protocol delegates, iOS6 support and onButtonClick blocks
+* [@tamasdancsi](https://github.com/tamasdancsi) for his support with the initial code  
+* [@dingosky](https://github.com/dingosky) for his work on the parallax effects code  
+* [@raspu](https://github.com/raspu) for his work on the protocol delegates, iOS6 support and onButtonClick blocks  
+* [@sbandol](https://github.com/sbandol) for his idea on adding the AlertView as the top most view in the hierarchy
 
 ## License
 
@@ -137,7 +152,9 @@ THE SOFTWARE.
 
 ## Other projects
 
-`iOS developers`, check out [AppWoodoo](http://www.appwoodoo.com/), our remote app settings (and A/B testing) service. It's open source and free to use.
+`
+iOS developers, check out` [AppWoodoo](http://www.appwoodoo.com/)`, our remote app settings (and A/B testing) service. It's open source and free to use.
+`
 
 Some more of my free stuff for web devs at [Github](https://github.com/wimagguc?tab=repositories).
 

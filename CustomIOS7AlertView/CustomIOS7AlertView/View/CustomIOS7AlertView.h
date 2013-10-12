@@ -31,6 +31,7 @@
 @property (copy) void (^onButtonTouchUpInside)(CustomIOS7AlertView *alertView, int buttonIndex) ;
 
 - (id)initWithParentView: (UIView *)_parentView;
+- (id)init;
 
 - (void)show;
 - (void)close;

@@ -29,15 +29,26 @@ CGFloat buttonSpacerHeight = 0;
 
 - (id)initWithParentView: (UIView *)_parentView
 {
-    self = [super initWithFrame:_parentView.frame];
-    
+    self = [super init];
     if (self) {
-        parentView = _parentView;
+
+        if (_parentView) {
+            self.frame = _parentView.frame;
+            parentView = _parentView;
+        } else {
+            self.frame = CGRectMake(0, 0, [UIScreen mainScreen].bounds.size.width, [UIScreen mainScreen].bounds.size.height);
+        }
+
         delegate = self;
         useMotionEffects = false;
         buttonTitles = @[@"Close"];
     }
     return self;
+}
+
+- (id)init
+{
+    return [self initWithParentView:NULL];
 }
 
 // Create the dialog view, and animate opening the dialog
@@ -57,7 +68,36 @@ CGFloat buttonSpacerHeight = 0;
     self.backgroundColor = [UIColor colorWithRed:0 green:0 blue:0 alpha:0];
 
     [self addSubview:dialogView];
-    [parentView addSubview:self];
+
+    // Can be attached to a view or to the top most window
+    // Attached to a view:
+    if (parentView != NULL) {
+        [parentView addSubview:self];
+
+    // Attached to the top most window (make sure we are using the right orientation):
+    } else {
+        UIInterfaceOrientation interfaceOrientation = [[UIApplication sharedApplication] statusBarOrientation];
+
+        switch (interfaceOrientation) {
+            case UIInterfaceOrientationLandscapeLeft:
+                self.transform = CGAffineTransformMakeRotation(M_PI * 270.0 / 180.0);
+                break;
+                
+            case UIInterfaceOrientationLandscapeRight:
+                self.transform = CGAffineTransformMakeRotation(M_PI * 90.0 / 180.0);
+                break;
+
+            case UIInterfaceOrientationPortraitUpsideDown:
+                self.transform = CGAffineTransformMakeRotation(M_PI * 180.0 / 180.0);
+                break;
+
+            default:
+                break;
+        }
+
+        [self setFrame:CGRectMake(0, 0, self.frame.size.width, self.frame.size.height)];
+        [[[[UIApplication sharedApplication] windows] lastObject] addSubview:self];
+    }
 
     [UIView animateWithDuration:0.2f delay:0.0 options:UIViewAnimationOptionCurveEaseInOut
 					 animations:^{
@@ -135,8 +175,8 @@ CGFloat buttonSpacerHeight = 0;
     CGFloat screenWidth = [UIScreen mainScreen].bounds.size.width;
     CGFloat screenHeight = [UIScreen mainScreen].bounds.size.height;
 
-    UIDeviceOrientation deviceOrientation = [[UIDevice currentDevice] orientation];
-    if (UIDeviceOrientationIsLandscape(deviceOrientation)) {
+    UIInterfaceOrientation interfaceOrientation = [[UIApplication sharedApplication] statusBarOrientation];
+    if (UIInterfaceOrientationIsLandscape(interfaceOrientation)) {
         CGFloat tmp = screenWidth;
         screenWidth = screenHeight;
         screenHeight = tmp;
@@ -147,7 +187,6 @@ CGFloat buttonSpacerHeight = 0;
 
     // This is the dialog's container; we attach the custom content and the buttons to this one
     UIView *dialogContainer = [[UIView alloc] initWithFrame:CGRectMake((screenWidth - dialogWidth) / 2, (screenHeight - dialogHeight) / 2, dialogWidth, dialogHeight)];
-
 
     // First, we style the dialog to match the iOS7 UIAlertView >>>
     CAGradientLayer *gradient = [CAGradientLayer layer];

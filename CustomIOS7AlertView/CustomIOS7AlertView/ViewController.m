@@ -39,7 +39,7 @@
 - (IBAction)launchDialog:(id)sender
 {
     // Here we need to pass a full frame
-    CustomIOS7AlertView *alertView = [[CustomIOS7AlertView alloc] initWithParentView:self.view];
+    CustomIOS7AlertView *alertView = [[CustomIOS7AlertView alloc] init];
 
     // Add some custom content to the alert view
     [alertView setContainerView:[self createDemoView]];
