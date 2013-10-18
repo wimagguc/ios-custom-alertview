@@ -17,6 +17,19 @@ const static CGFloat kCustomIOS7AlertViewDefaultButtonSpacerHeight = 1;
 const static CGFloat kCustomIOS7AlertViewCornerRadius              = 7;
 const static CGFloat kCustomIOS7MotionEffectExtent                 = 10.0;
 
+/*
+// re-organize the UIInterfaceOrientation
+ UIInterfaceOrientationPortrait:1->0
+ UIInterfaceOrientationPortraitUpsideDown:2->1
+ UIInterfaceOrientationLandscapeLeft:4->2
+ UIInterfaceOrientationLandscapeRight:3->3
+ */
+const NSInteger myOrientation[] = {0,0,2,1,3};
+
+@interface CustomIOS7AlertView()
+@property (nonatomic, assign) UIInterfaceOrientation statueOrientation;
+@end
+
 @implementation CustomIOS7AlertView
 
 CGFloat buttonHeight = 0;
@@ -26,6 +39,12 @@ CGFloat buttonSpacerHeight = 0;
 @synthesize delegate;
 @synthesize buttonTitles;
 @synthesize useMotionEffects;
+
+- (void)dealloc
+{
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:UIDeviceOrientationDidChangeNotification object:nil];
+}
+
 
 - (id)initWithParentView: (UIView *)_parentView
 {
@@ -42,6 +61,9 @@ CGFloat buttonSpacerHeight = 0;
         delegate = self;
         useMotionEffects = false;
         buttonTitles = @[@"Close"];
+
+        self.statueOrientation = [[UIApplication sharedApplication] statusBarOrientation];
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(handleRotationNotification:) name:UIDeviceOrientationDidChangeNotification object:nil];
     }
     return self;
 }
@@ -54,6 +76,8 @@ CGFloat buttonSpacerHeight = 0;
 // Create the dialog view, and animate opening the dialog
 - (void)show
 {
+    self.autoresizesSubviews = YES;
+    self.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin|UIViewAutoresizingFlexibleTopMargin;
     dialogView = [self createContainerView];
 
 #if (defined(__IPHONE_7_0))
@@ -96,7 +120,9 @@ CGFloat buttonSpacerHeight = 0;
         }
 
         [self setFrame:CGRectMake(0, 0, self.frame.size.width, self.frame.size.height)];
-        [[[[UIApplication sharedApplication] windows] lastObject] addSubview:self];
+        
+        [[[UIApplication sharedApplication] keyWindow] addSubview:self];
+//        [[[[UIApplication sharedApplication] windows] lastObject] addSubview:self];
     }
 
     [UIView animateWithDuration:0.2f delay:0.0 options:UIViewAnimationOptionCurveEaseInOut
@@ -272,4 +298,13 @@ CGFloat buttonSpacerHeight = 0;
 }
 #endif
 
+#pragma mark - NSNotification
+- (void)handleRotationNotification:(NSNotification *)noti
+{
+    UIInterfaceOrientation interfaceOrientation = [[UIApplication sharedApplication] statusBarOrientation];
+    
+    NSInteger num = myOrientation[self.statueOrientation] - myOrientation[interfaceOrientation];
+    
+    dialogView.transform = CGAffineTransformMakeRotation(-num * M_PI_2);
+}
 @end
