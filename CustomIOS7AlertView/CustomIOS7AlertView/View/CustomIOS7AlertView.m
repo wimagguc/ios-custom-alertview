@@ -17,19 +17,6 @@ const static CGFloat kCustomIOS7AlertViewDefaultButtonSpacerHeight = 1;
 const static CGFloat kCustomIOS7AlertViewCornerRadius              = 7;
 const static CGFloat kCustomIOS7MotionEffectExtent                 = 10.0;
 
-/*
-// re-organize the UIInterfaceOrientation
- UIInterfaceOrientationPortrait:1->0
- UIInterfaceOrientationPortraitUpsideDown:2->1
- UIInterfaceOrientationLandscapeLeft:4->2
- UIInterfaceOrientationLandscapeRight:3->3
- */
-const NSInteger myOrientation[] = {0,0,2,1,3};
-
-@interface CustomIOS7AlertView()
-@property (nonatomic, assign) UIInterfaceOrientation statueOrientation;
-@end
-
 @implementation CustomIOS7AlertView
 
 CGFloat buttonHeight = 0;
@@ -39,12 +26,6 @@ CGFloat buttonSpacerHeight = 0;
 @synthesize delegate;
 @synthesize buttonTitles;
 @synthesize useMotionEffects;
-
-- (void)dealloc
-{
-    [[NSNotificationCenter defaultCenter] removeObserver:self name:UIDeviceOrientationDidChangeNotification object:nil];
-}
-
 
 - (id)initWithParentView: (UIView *)_parentView
 {
@@ -62,8 +43,7 @@ CGFloat buttonSpacerHeight = 0;
         useMotionEffects = false;
         buttonTitles = @[@"Close"];
 
-        self.statueOrientation = [[UIApplication sharedApplication] statusBarOrientation];
-        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(handleRotationNotification:) name:UIDeviceOrientationDidChangeNotification object:nil];
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(deviceOrientationDidChange:) name:UIDeviceOrientationDidChangeNotification object:nil];
     }
     return self;
 }
@@ -76,8 +56,6 @@ CGFloat buttonSpacerHeight = 0;
 // Create the dialog view, and animate opening the dialog
 - (void)show
 {
-    self.autoresizesSubviews = YES;
-    self.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin|UIViewAutoresizingFlexibleTopMargin;
     dialogView = [self createContainerView];
 
 #if (defined(__IPHONE_7_0))
@@ -101,7 +79,6 @@ CGFloat buttonSpacerHeight = 0;
     // Attached to the top most window (make sure we are using the right orientation):
     } else {
         UIInterfaceOrientation interfaceOrientation = [[UIApplication sharedApplication] statusBarOrientation];
-
         switch (interfaceOrientation) {
             case UIInterfaceOrientationLandscapeLeft:
                 self.transform = CGAffineTransformMakeRotation(M_PI * 270.0 / 180.0);
@@ -120,9 +97,7 @@ CGFloat buttonSpacerHeight = 0;
         }
 
         [self setFrame:CGRectMake(0, 0, self.frame.size.width, self.frame.size.height)];
-        
-        [[[UIApplication sharedApplication] keyWindow] addSubview:self];
-//        [[[[UIApplication sharedApplication] windows] lastObject] addSubview:self];
+        [[[[UIApplication sharedApplication] windows] lastObject] addSubview:self];
     }
 
     [UIView animateWithDuration:0.2f delay:0.0 options:UIViewAnimationOptionCurveEaseInOut
@@ -157,13 +132,18 @@ CGFloat buttonSpacerHeight = 0;
 // Dialog close animation then cleaning and removing the view from the parent
 - (void)close
 {
-    dialogView.layer.transform = CATransform3DMakeScale(1, 1, 1);
+    CATransform3D currentTransform = dialogView.layer.transform;
+
+    CGFloat startRotation = [[dialogView valueForKeyPath:@"layer.transform.rotation.z"] floatValue];
+    CATransform3D rotation = CATransform3DMakeRotation(-startRotation + M_PI * 270.0 / 180.0, 0.0f, 0.0f, 0.0f);
+
+    dialogView.layer.transform = CATransform3DConcat(rotation, CATransform3DMakeScale(1, 1, 1));
     dialogView.layer.opacity = 1.0f;
 
     [UIView animateWithDuration:0.2f delay:0.0 options:UIViewAnimationOptionTransitionNone
 					 animations:^{
 						 self.backgroundColor = [UIColor colorWithRed:0.0f green:0.0f blue:0.0f alpha:0.0f];
-                         dialogView.layer.transform = CATransform3DMakeScale(0.6f, 0.6f, 1.0);
+                         dialogView.layer.transform = CATransform3DConcat(currentTransform, CATransform3DMakeScale(0.6f, 0.6f, 1.0));
                          dialogView.layer.opacity = 0.0f;
 					 }
 					 completion:^(BOOL finished) {
@@ -298,13 +278,49 @@ CGFloat buttonSpacerHeight = 0;
 }
 #endif
 
-#pragma mark - NSNotification
-- (void)handleRotationNotification:(NSNotification *)noti
+// Handle device orientation changes
+- (void)deviceOrientationDidChange: (NSNotification *)notification
 {
+    // If dialog is attached to the parent view, it probably wants to handle the orientation change itself
+    if (parentView != NULL) {
+        return;
+    }
+
     UIInterfaceOrientation interfaceOrientation = [[UIApplication sharedApplication] statusBarOrientation];
-    
-    NSInteger num = myOrientation[self.statueOrientation] - myOrientation[interfaceOrientation];
-    
-    dialogView.transform = CGAffineTransformMakeRotation(-num * M_PI_2);
+
+    CGFloat startRotation = [[self valueForKeyPath:@"layer.transform.rotation.z"] floatValue];
+    CGAffineTransform rotation;
+
+    switch (interfaceOrientation) {
+        case UIInterfaceOrientationLandscapeLeft:
+            rotation = CGAffineTransformMakeRotation(-startRotation + M_PI * 270.0 / 180.0);
+            break;
+
+        case UIInterfaceOrientationLandscapeRight:
+            rotation = CGAffineTransformMakeRotation(-startRotation + M_PI * 90.0 / 180.0);
+            break;
+
+        case UIInterfaceOrientationPortraitUpsideDown:
+            rotation = CGAffineTransformMakeRotation(-startRotation + M_PI * 180.0 / 180.0);
+            break;
+
+        default:
+            rotation = CGAffineTransformMakeRotation(-startRotation + 0.0);
+            break;
+    }
+
+    [UIView animateWithDuration:0.2f delay:0.0 options:UIViewAnimationOptionTransitionNone
+					 animations:^{
+                         dialogView.transform = rotation;
+					 }
+					 completion:nil
+	 ];
+
 }
+
+- (void)dealloc
+{
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:UIDeviceOrientationDidChangeNotification object:nil];
+}
+
 @end

@@ -37,7 +37,9 @@
 - (void)close;
 
 - (IBAction)customIOS7dialogButtonTouchUpInside:(id)sender;
-
 - (void)setOnButtonTouchUpInside:(void (^)(CustomIOS7AlertView *alertView, int buttonIndex))onButtonTouchUpInside;
+
+- (void)deviceOrientationDidChange: (NSNotification *)notification;
+- (void)dealloc;
 
 @end
