@@ -1,6 +1,6 @@
 # Custom iOS7 AlertView
 
-`v0.5`
+`v0.6`
 
 The addSubview is not available in UIAlertView in iOS7 any more. The view hierarchy for this class is private and must not be modified.
 
@@ -111,9 +111,9 @@ As simple as adding the following files to your project:
 
 This is a really quick implementation, and there are a few things missing:
 
-* Even better rotation support (works with landscape and portrait mode too, so the current best practise is to re-open the same dialog once the screen is rotated)
-
 * Adding more buttons: they don't exactly match the look with that of on iOS7
+
+* Keyboard support: the dialog might be mispositioned in some cases
 
 ## Special thanks to
 
@@ -121,6 +121,7 @@ This is a really quick implementation, and there are a few things missing:
 * [@dingosky](https://github.com/dingosky) for his work on the parallax effects code  
 * [@raspu](https://github.com/raspu) for his work on the protocol delegates, iOS6 support and onButtonClick blocks  
 * [@sbandol](https://github.com/sbandol) for his idea on adding the AlertView as the top most view in the hierarchy
+* [@scorpiozj](https://github.com/scorpiozj) for his work on the rotation code
 
 ## License
 
@@ -152,9 +153,7 @@ THE SOFTWARE.
 
 ## Other projects
 
-`
-iOS developers, check out` [AppWoodoo](http://www.appwoodoo.com/)`, our remote app settings (and A/B testing) service. It's open source and free to use.
-`
+Check out [AppWoodoo](http://www.appwoodoo.com/), our remote app settings (and A/B testing) service. It's open source and free to use.
 
 Some more of my free stuff for web devs at [Github](https://github.com/wimagguc?tab=repositories).
 
