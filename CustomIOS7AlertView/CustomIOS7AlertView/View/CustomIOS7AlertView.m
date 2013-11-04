@@ -57,6 +57,12 @@ CGFloat buttonSpacerHeight = 0;
 - (void)show
 {
     dialogView = [self createContainerView];
+  
+    dialogView.layer.shouldRasterize = YES;
+    dialogView.layer.rasterizationScale = [[UIScreen mainScreen] scale];
+  
+    self.layer.shouldRasterize = YES;
+    self.layer.rasterizationScale = [[UIScreen mainScreen] scale];
 
 #if (defined(__IPHONE_7_0))
     if (useMotionEffects) {
@@ -213,7 +219,8 @@ CGFloat buttonSpacerHeight = 0;
     dialogContainer.layer.shadowRadius = cornerRadius + 5;
     dialogContainer.layer.shadowOpacity = 0.1f;
     dialogContainer.layer.shadowOffset = CGSizeMake(0 - (cornerRadius+5)/2, 0 - (cornerRadius+5)/2);
-    // ^^^
+    dialogContainer.layer.shadowColor = [UIColor blackColor].CGColor;
+    dialogContainer.layer.shadowPath = [UIBezierPath bezierPathWithRoundedRect:dialogContainer.bounds cornerRadius:dialogContainer.layer.cornerRadius].CGPath;
 
     // There is a line above the button
     UIView *lineView = [[UIView alloc] initWithFrame:CGRectMake(0, dialogContainer.bounds.size.height - buttonHeight - buttonSpacerHeight, dialogContainer.bounds.size.width, buttonSpacerHeight)];
