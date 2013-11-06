@@ -1,6 +1,6 @@
 # Custom iOS7 AlertView
 
-`v0.6`
+`v0.7`
 
 The addSubview is not available in UIAlertView in iOS7 any more. The view hierarchy for this class is private and must not be modified.
 
@@ -17,7 +17,7 @@ As simple as adding the following files to your project:
 
 ## Change notes
 
-* A new `init` method is added in which you don't have to pass on the parent view any more. It's easy to migrate to this one, so in case it works just use this new init function. If it fails, please add an issue here so that I can track down the bugs.
+The initWithParentView method is now deprecated. Please use the init method instead, where you don't need to pass a parent view at all. **In case the init doesn't work for you, please leave a note or open an issue here.**
 
 ## Quick start guide
 
@@ -98,14 +98,6 @@ As simple as adding the following files to your project:
     ```
 [alertView setDelegate:self];
     ```
-
-* You can pass a parent view while initialise:
-
-    ```
-    CustomIOS7AlertView *alertView = [[CustomIOS7AlertView alloc] initWithParentView:self.view];
-    ```
-
-    In this case the alertView will be attached to the parent view - if you don't pass any, we will try to add the view to the top most view in the hierarchy.
 
 ## Todos
 
