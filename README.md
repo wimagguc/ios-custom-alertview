@@ -122,6 +122,7 @@ This is a really quick implementation, and there are a few things missing:
 * [@raspu](https://github.com/raspu) for his work on the protocol delegates, iOS6 support and onButtonClick blocks  
 * [@sbandol](https://github.com/sbandol) for his idea on adding the AlertView as the top most view in the hierarchy
 * [@scorpiozj](https://github.com/scorpiozj) for his work on the rotation code
+* [@kwent](https://github.com/kwent) for adding performance optimisations
 
 ## License
 
