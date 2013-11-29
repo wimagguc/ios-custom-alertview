@@ -1,6 +1,6 @@
 # Custom iOS7 AlertView
 
-`v0.7`
+`v0.8`
 
 The addSubview is not available in UIAlertView in iOS7 any more. The view hierarchy for this class is private and must not be modified.
 
@@ -105,7 +105,7 @@ This is a really quick implementation, and there are a few things missing:
 
 * Adding more buttons: they don't exactly match the look with that of on iOS7
 
-* Keyboard support: the dialog might be mispositioned in some cases
+* Rotation: rotates wrong with the keyboard on
 
 ## Special thanks to
 

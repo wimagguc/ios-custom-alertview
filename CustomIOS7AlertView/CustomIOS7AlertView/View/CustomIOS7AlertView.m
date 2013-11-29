@@ -44,6 +44,8 @@ CGFloat buttonSpacerHeight = 0;
         buttonTitles = @[@"Close"];
 
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(deviceOrientationDidChange:) name:UIDeviceOrientationDidChangeNotification object:nil];
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillShow:) name:UIKeyboardWillShowNotification object:nil];
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillHide:) name:UIKeyboardWillHideNotification object:nil];
     }
     return self;
 }
@@ -103,7 +105,7 @@ CGFloat buttonSpacerHeight = 0;
         }
 
         [self setFrame:CGRectMake(0, 0, self.frame.size.width, self.frame.size.height)];
-        [[[[UIApplication sharedApplication] windows] lastObject] addSubview:self];
+        [[[[UIApplication sharedApplication] windows] firstObject] addSubview:self];
     }
 
     [UIView animateWithDuration:0.2f delay:0.0 options:UIViewAnimationOptionCurveEaseInOut
@@ -116,7 +118,7 @@ CGFloat buttonSpacerHeight = 0;
      ];
 }
 
-// Button has touched
+// Button has been touched
 - (IBAction)customIOS7dialogButtonTouchUpInside:(id)sender
 {
     if (delegate != NULL) {
@@ -169,36 +171,18 @@ CGFloat buttonSpacerHeight = 0;
 // Creates the container view here: create the dialog, then add the custom content and buttons
 - (UIView *)createContainerView
 {
-    if ([buttonTitles count] > 0) {
-        buttonHeight       = kCustomIOS7AlertViewDefaultButtonHeight;
-        buttonSpacerHeight = kCustomIOS7AlertViewDefaultButtonSpacerHeight;
-    } else {
-        buttonHeight = 0;
-        buttonSpacerHeight = 0;
-    }
-
     if (containerView == NULL) {
         containerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 300, 150)];
     }
 
-    CGFloat dialogWidth = containerView.frame.size.width;
-    CGFloat dialogHeight = containerView.frame.size.height + buttonHeight + buttonSpacerHeight;
-
-    CGFloat screenWidth = [UIScreen mainScreen].bounds.size.width;
-    CGFloat screenHeight = [UIScreen mainScreen].bounds.size.height;
-
-    UIInterfaceOrientation interfaceOrientation = [[UIApplication sharedApplication] statusBarOrientation];
-    if (UIInterfaceOrientationIsLandscape(interfaceOrientation)) {
-        CGFloat tmp = screenWidth;
-        screenWidth = screenHeight;
-        screenHeight = tmp;
-    }
+    CGSize screenSize = [self countScreenSize];
+    CGSize dialogSize = [self countDialogSize];
 
     // For the black background
-    [self setFrame:CGRectMake(0, 0, screenWidth, screenHeight)];
+    [self setFrame:CGRectMake(0, 0, screenSize.width, screenSize.height)];
 
     // This is the dialog's container; we attach the custom content and the buttons to this one
-    UIView *dialogContainer = [[UIView alloc] initWithFrame:CGRectMake((screenWidth - dialogWidth) / 2, (screenHeight - dialogHeight) / 2, dialogWidth, dialogHeight)];
+    UIView *dialogContainer = [[UIView alloc] initWithFrame:CGRectMake((screenSize.width - dialogSize.width) / 2, (screenSize.height - dialogSize.height) / 2, dialogSize.width, dialogSize.height)];
 
     // First, we style the dialog to match the iOS7 UIAlertView >>>
     CAGradientLayer *gradient = [CAGradientLayer layer];
@@ -237,6 +221,7 @@ CGFloat buttonSpacerHeight = 0;
     return dialogContainer;
 }
 
+// Helper function: add buttons to container
 - (void)addButtonsToView: (UIView *)container
 {
     CGFloat buttonWidth = container.bounds.size.width / [buttonTitles count];
@@ -258,6 +243,39 @@ CGFloat buttonSpacerHeight = 0;
 
         [container addSubview:closeButton];
     }
+}
+
+// Helper function: count and return the dialog's size
+- (CGSize)countDialogSize
+{
+    CGFloat dialogWidth = containerView.frame.size.width;
+    CGFloat dialogHeight = containerView.frame.size.height + buttonHeight + buttonSpacerHeight;
+
+    return CGSizeMake(dialogWidth, dialogHeight);
+}
+
+// Helper function: count and return the screen's size
+- (CGSize)countScreenSize
+{
+    if ([buttonTitles count] > 0) {
+        buttonHeight       = kCustomIOS7AlertViewDefaultButtonHeight;
+        buttonSpacerHeight = kCustomIOS7AlertViewDefaultButtonSpacerHeight;
+    } else {
+        buttonHeight = 0;
+        buttonSpacerHeight = 0;
+    }
+
+    CGFloat screenWidth = [UIScreen mainScreen].bounds.size.width;
+    CGFloat screenHeight = [UIScreen mainScreen].bounds.size.height;
+
+    UIInterfaceOrientation interfaceOrientation = [[UIApplication sharedApplication] statusBarOrientation];
+    if (UIInterfaceOrientationIsLandscape(interfaceOrientation)) {
+        CGFloat tmp = screenWidth;
+        screenWidth = screenHeight;
+        screenHeight = tmp;
+    }
+
+    return CGSizeMake(screenWidth, screenHeight);
 }
 
 #if (defined(__IPHONE_7_0))
@@ -284,6 +302,13 @@ CGFloat buttonSpacerHeight = 0;
     [dialogView addMotionEffect:motionEffectGroup];
 }
 #endif
+
+- (void)dealloc
+{
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:UIDeviceOrientationDidChangeNotification object:nil];
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:UIKeyboardWillHideNotification object:nil];
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:UIKeyboardWillShowNotification object:nil];
+}
 
 // Handle device orientation changes
 - (void)deviceOrientationDidChange: (NSNotification *)notification
@@ -320,14 +345,52 @@ CGFloat buttonSpacerHeight = 0;
 					 animations:^{
                          dialogView.transform = rotation;
 					 }
-					 completion:nil
+					 completion:^(BOOL finished){
+                         // fix errors caused by being rotated one too many times
+                         dispatch_after(dispatch_time(DISPATCH_TIME_NOW, 0.5f * NSEC_PER_SEC), dispatch_get_main_queue(), ^{
+                             UIInterfaceOrientation endInterfaceOrientation = [[UIApplication sharedApplication] statusBarOrientation];
+                             if (interfaceOrientation != endInterfaceOrientation) {
+                                 // TODO user moved phone again before than animation ended: rotation animation can introduce errors here
+                             }
+                         });
+                     }
 	 ];
 
 }
 
-- (void)dealloc
+// Handle keyboard show/hide changes
+- (void)keyboardWillShow: (NSNotification *)notification
 {
-    [[NSNotificationCenter defaultCenter] removeObserver:self name:UIDeviceOrientationDidChangeNotification object:nil];
+    CGSize screenSize = [self countScreenSize];
+    CGSize dialogSize = [self countDialogSize];
+    CGSize keyboardSize = [[[notification userInfo] objectForKey:UIKeyboardFrameBeginUserInfoKey] CGRectValue].size;
+
+    UIInterfaceOrientation interfaceOrientation = [[UIApplication sharedApplication] statusBarOrientation];
+    if (UIInterfaceOrientationIsLandscape(interfaceOrientation)) {
+        CGFloat tmp = keyboardSize.height;
+        keyboardSize.height = keyboardSize.width;
+        keyboardSize.width = tmp;
+    }
+
+    [UIView animateWithDuration:0.2f delay:0.0 options:UIViewAnimationOptionTransitionNone
+					 animations:^{
+                         dialogView.frame = CGRectMake((screenSize.width - dialogSize.width) / 2, (screenSize.height - keyboardSize.height - dialogSize.height) / 2, dialogSize.width, dialogSize.height);
+					 }
+					 completion:nil
+	 ];
+}
+
+- (void)keyboardWillHide: (NSNotification *)notification
+{
+    CGSize screenSize = [self countScreenSize];
+    CGSize dialogSize = [self countDialogSize];
+
+    [UIView animateWithDuration:0.2f delay:0.0 options:UIViewAnimationOptionTransitionNone
+					 animations:^{
+                         dialogView.frame = CGRectMake((screenSize.width - dialogSize.width) / 2, (screenSize.height - dialogSize.height) / 2, dialogSize.width, dialogSize.height);
+					 }
+					 completion:nil
+	 ];
 }
 
 @end
