@@ -29,15 +29,19 @@ CGFloat buttonSpacerHeight = 0;
 
 - (id)initWithParentView: (UIView *)_parentView
 {
+    CustomIOS7AlertView *alertView = [self init];
+    if (_parentView) {
+        alertView.frame = _parentView.frame;
+        parentView = _parentView;
+    }
+    return alertView;
+}
+
+- (id)init
+{
     self = [super init];
     if (self) {
-
-        if (_parentView) {
-            self.frame = _parentView.frame;
-            parentView = _parentView;
-        } else {
-            self.frame = CGRectMake(0, 0, [UIScreen mainScreen].bounds.size.width, [UIScreen mainScreen].bounds.size.height);
-        }
+        self.frame = CGRectMake(0, 0, [UIScreen mainScreen].bounds.size.width, [UIScreen mainScreen].bounds.size.height);
 
         delegate = self;
         useMotionEffects = false;
@@ -48,11 +52,6 @@ CGFloat buttonSpacerHeight = 0;
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillHide:) name:UIKeyboardWillHideNotification object:nil];
     }
     return self;
-}
-
-- (id)init
-{
-    return [self initWithParentView:NULL];
 }
 
 // Create the dialog view, and animate opening the dialog
