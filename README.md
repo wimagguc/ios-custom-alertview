@@ -1,6 +1,6 @@
 # Custom iOS7 AlertView
 
-`v0.8`
+`v0.81`
 
 The addSubview is not available in UIAlertView in iOS7 any more. The view hierarchy for this class is private and must not be modified.
 

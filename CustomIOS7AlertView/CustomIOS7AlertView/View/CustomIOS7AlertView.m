@@ -223,6 +223,8 @@ CGFloat buttonSpacerHeight = 0;
 // Helper function: add buttons to container
 - (void)addButtonsToView: (UIView *)container
 {
+    if (buttonTitles==NULL) { return; }
+
     CGFloat buttonWidth = container.bounds.size.width / [buttonTitles count];
 
     for (int i=0; i<[buttonTitles count]; i++) {
@@ -256,7 +258,7 @@ CGFloat buttonSpacerHeight = 0;
 // Helper function: count and return the screen's size
 - (CGSize)countScreenSize
 {
-    if ([buttonTitles count] > 0) {
+    if (buttonTitles!=NULL && [buttonTitles count] > 0) {
         buttonHeight       = kCustomIOS7AlertViewDefaultButtonHeight;
         buttonSpacerHeight = kCustomIOS7AlertViewDefaultButtonSpacerHeight;
     } else {
