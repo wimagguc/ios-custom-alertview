@@ -247,6 +247,18 @@ CGFloat buttonSpacerHeight = 0;
     }
 }
 
+// Enables or disables the specified button
+// Should be used after the alert view is displayed.
+-(void)setButtonEnable:(BOOL)state whithButtonName:(NSString*)buttonName{
+    for(UIView* subview in self.dialogView.subviews){
+        if([subview isKindOfClass:[UIButton class]]){
+            UIButton* btn = (UIButton*) subview;
+            if([btn.currentTitle isEqualToString:buttonName])
+                [btn setEnabled:state];
+        }
+    }
+}
+
 // Helper function: count and return the dialog's size
 - (CGSize)countDialogSize
 {
