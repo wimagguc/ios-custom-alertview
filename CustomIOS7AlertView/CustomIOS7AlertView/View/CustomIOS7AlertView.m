@@ -48,6 +48,7 @@ CGFloat buttonSpacerHeight = 0;
         buttonTitles = @[@"Close"];
         
         self.adjustViewForKeyboardNotifications = YES;
+        self.invertButtonView = NO;
     }
     return self;
 }
@@ -172,6 +173,10 @@ CGFloat buttonSpacerHeight = 0;
         containerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 300, 150)];
     }
     
+    if (self.invertButtonView) {
+        CGRect invertedContainerView = CGRectMake(containerView.frame.origin.x, kCustomIOS7AlertViewDefaultButtonHeight, containerView.frame.size.width, containerView.frame.size.height);
+        containerView.frame = invertedContainerView;
+    }
     CGSize screenSize = [self countScreenSize];
     CGSize dialogSize = [self countDialogSize];
     
@@ -204,14 +209,16 @@ CGFloat buttonSpacerHeight = 0;
     dialogContainer.layer.shadowPath = [UIBezierPath bezierPathWithRoundedRect:dialogContainer.bounds cornerRadius:dialogContainer.layer.cornerRadius].CGPath;
     
     // There is a line above the button
-    UIView *lineView = [[UIView alloc] initWithFrame:CGRectMake(0, dialogContainer.bounds.size.height - buttonHeight - buttonSpacerHeight, dialogContainer.bounds.size.width, buttonSpacerHeight)];
+    CGFloat yPosition = (self.invertButtonView)? buttonHeight:dialogContainer.bounds.size.height - buttonHeight - buttonSpacerHeight;
+    UIView *lineView = [[UIView alloc] initWithFrame:CGRectMake(0, yPosition, dialogContainer.bounds.size.width, buttonSpacerHeight)];
     lineView.backgroundColor = [UIColor colorWithRed:198.0/255.0 green:198.0/255.0 blue:198.0/255.0 alpha:1.0f];
     [dialogContainer addSubview:lineView];
     // ^^^
     // There are also vertical lines between the buttons
     if (buttonTitles.count > 1) {
         for (int i = 1; i < buttonTitles.count; i++) {
-            UIView *verticalLineView = [[UIView alloc] initWithFrame:CGRectMake(dialogContainer.bounds.size.width/buttonTitles.count*i, dialogContainer.bounds.size.height - buttonHeight - buttonSpacerHeight, buttonSpacerHeight, buttonHeight)];
+            CGFloat yPosition = (self.invertButtonView)? 0 + buttonSpacerHeight:dialogContainer.bounds.size.height - buttonHeight - buttonSpacerHeight;
+            UIView *verticalLineView = [[UIView alloc] initWithFrame:CGRectMake(dialogContainer.bounds.size.width/buttonTitles.count*i, yPosition, buttonSpacerHeight, buttonHeight)];
             verticalLineView.backgroundColor = [UIColor colorWithRed:198.0/255.0 green:198.0/255.0 blue:198.0/255.0 alpha:1.0f];
             [dialogContainer addSubview:verticalLineView];
         }
@@ -236,7 +243,8 @@ CGFloat buttonSpacerHeight = 0;
         
         UIButton *closeButton = [UIButton buttonWithType:UIButtonTypeCustom];
         
-        [closeButton setFrame:CGRectMake(i * buttonWidth, container.bounds.size.height - buttonHeight, buttonWidth, buttonHeight)];
+        CGFloat yPosition = (self.invertButtonView)? 0:container.bounds.size.height - buttonHeight;
+        [closeButton setFrame:CGRectMake(i * buttonWidth, yPosition, buttonWidth, buttonHeight)];
         
         [closeButton addTarget:self action:@selector(customIOS7dialogButtonTouchUpInside:) forControlEvents:UIControlEventTouchUpInside];
         [closeButton setTag:i];
