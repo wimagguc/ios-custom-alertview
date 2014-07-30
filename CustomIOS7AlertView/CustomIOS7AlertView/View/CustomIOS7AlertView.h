@@ -38,7 +38,9 @@
 - (id)initWithParentView: (UIView *)_parentView __attribute__ ((deprecated));
 
 - (void)show;
+- (void)showWithCompletion:(void (^)(BOOL finished))completion;
 - (void)close;
+- (void)closeWithCompletion:(void (^)(BOOL finished))completion;
 
 - (IBAction)customIOS7dialogButtonTouchUpInside:(id)sender;
 - (void)setOnButtonTouchUpInside:(void (^)(CustomIOS7AlertView *alertView, int buttonIndex))onButtonTouchUpInside;
