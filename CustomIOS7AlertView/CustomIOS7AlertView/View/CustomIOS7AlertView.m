@@ -22,7 +22,7 @@ const static CGFloat kCustomIOS7MotionEffectExtent                 = 10.0;
 CGFloat buttonHeight = 0;
 CGFloat buttonSpacerHeight = 0;
 
-@synthesize parentView, containerView, dialogView, buttonView, onButtonTouchUpInside;
+@synthesize parentView, containerView, dialogView, onButtonTouchUpInside;
 @synthesize delegate;
 @synthesize buttonTitles;
 @synthesize useMotionEffects;
@@ -125,14 +125,14 @@ CGFloat buttonSpacerHeight = 0;
     }
 
     if (onButtonTouchUpInside != NULL) {
-        onButtonTouchUpInside(self, [sender tag]);
+        onButtonTouchUpInside(self, (int)[sender tag]);
     }
 }
 
 // Default button behaviour
 - (void)customIOS7dialogButtonTouchUpInside: (CustomIOS7AlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
 {
-    NSLog(@"Button Clicked! %d, %d", buttonIndex, [alertView tag]);
+    NSLog(@"Button Clicked! %d, %d", (int)buttonIndex, (int)[alertView tag]);
     [self close];
 }
 
