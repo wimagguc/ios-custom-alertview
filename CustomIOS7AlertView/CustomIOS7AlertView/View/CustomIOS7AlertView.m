@@ -211,6 +211,15 @@ CGFloat buttonSpacerHeight = 0;
     [dialogContainer addSubview:lineView];
     // ^^^
 
+    // There are also vertical lines between the buttons
+    if (buttonTitles.count > 1) {
+        for (int i = 1; i <= buttonTitles.count; i++) {
+            UIView *verticalLineView = [[UIView alloc] initWithFrame:CGRectMake(dialogContainer.bounds.size.width/buttonTitles.count*i, dialogContainer.bounds.size.height - buttonHeight - buttonSpacerHeight, buttonSpacerHeight, buttonHeight)];
+            verticalLineView.backgroundColor = [UIColor colorWithRed:198.0/255.0 green:198.0/255.0 blue:198.0/255.0 alpha:1.0f];
+            [dialogContainer addSubview:verticalLineView];
+        }
+    }
+
     // Add the custom container if there is any
     [dialogContainer addSubview:containerView];
 
