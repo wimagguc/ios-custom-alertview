@@ -57,6 +57,11 @@ CGFloat buttonSpacerHeight = 0;
 // Create the dialog view, and animate opening the dialog
 - (void)show
 {
+    [self showWithCompletion:NULL];
+}
+
+- (void)showWithCompletion:(void (^)(BOOL finished))completion
+{
     dialogView = [self createContainerView];
   
     dialogView.layer.shouldRasterize = YES;
@@ -113,7 +118,7 @@ CGFloat buttonSpacerHeight = 0;
                          dialogView.layer.opacity = 1.0f;
                          dialogView.layer.transform = CATransform3DMakeScale(1, 1, 1);
 					 }
-					 completion:NULL
+					 completion:completion
      ];
 }
 
@@ -139,6 +144,11 @@ CGFloat buttonSpacerHeight = 0;
 // Dialog close animation then cleaning and removing the view from the parent
 - (void)close
 {
+    [self closeWithCompletion:NULL];
+}
+
+- (void)closeWithCompletion:(void (^)(BOOL finished))completion
+{
     CATransform3D currentTransform = dialogView.layer.transform;
 
     CGFloat startRotation = [[dialogView valueForKeyPath:@"layer.transform.rotation.z"] floatValue];
@@ -158,6 +168,9 @@ CGFloat buttonSpacerHeight = 0;
                              [v removeFromSuperview];
                          }
                          [self removeFromSuperview];
+                         if (completion != NULL) {
+                             completion(finished);
+                         }
 					 }
 	 ];
 }
