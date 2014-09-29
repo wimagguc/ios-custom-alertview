@@ -30,7 +30,7 @@
 
 @property (copy) void (^onButtonTouchUpInside)(CustomIOS7AlertView *alertView, int buttonIndex) ;
 
-@property (nonatomic,readwrite) BOOL adjustViewForKeyboardNotifications;
+@property (nonatomic, readwrite) BOOL adjustViewForKeyboardNotifications;
 @property (nonatomic, readwrite) BOOL invertButtonView;
 
 - (id)init;

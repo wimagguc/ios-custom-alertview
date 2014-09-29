@@ -208,6 +208,9 @@ CGFloat buttonSpacerHeight = 0;
     dialogContainer.layer.shadowColor = [UIColor blackColor].CGColor;
     dialogContainer.layer.shadowPath = [UIBezierPath bezierPathWithRoundedRect:dialogContainer.bounds cornerRadius:dialogContainer.layer.cornerRadius].CGPath;
     
+    // clip subviews
+    dialogContainer.clipsToBounds = YES;
+    
     // There is a line above the button
     CGFloat yPosition = (self.invertButtonView)? buttonHeight:dialogContainer.bounds.size.height - buttonHeight - buttonSpacerHeight;
     UIView *lineView = [[UIView alloc] initWithFrame:CGRectMake(0, yPosition, dialogContainer.bounds.size.width, buttonSpacerHeight)];
