@@ -11,6 +11,7 @@
 
 #import "CustomIOS7AlertView.h"
 #import <QuartzCore/QuartzCore.h>
+#import "Version.h"
 
 const static CGFloat kCustomIOS7AlertViewDefaultButtonHeight       = 50;
 const static CGFloat kCustomIOS7AlertViewDefaultButtonSpacerHeight = 1;
@@ -84,22 +85,26 @@ CGFloat buttonSpacerHeight = 0;
         
         // Attached to the top most window (make sure we are using the right orientation):
     } else {
-        UIInterfaceOrientation interfaceOrientation = [[UIApplication sharedApplication] statusBarOrientation];
-        switch (interfaceOrientation) {
-            case UIInterfaceOrientationLandscapeLeft:
-                self.transform = CGAffineTransformMakeRotation(M_PI * 270.0 / 180.0);
-                break;
-                
-            case UIInterfaceOrientationLandscapeRight:
-                self.transform = CGAffineTransformMakeRotation(M_PI * 90.0 / 180.0);
-                break;
-                
-            case UIInterfaceOrientationPortraitUpsideDown:
-                self.transform = CGAffineTransformMakeRotation(M_PI * 180.0 / 180.0);
-                break;
-                
-            default:
-                break;
+        
+        if (SYSTEM_VERSION_LESS_THAN(@"8.0")) {
+            
+            UIInterfaceOrientation interfaceOrientation = [[UIApplication sharedApplication] statusBarOrientation];
+            switch (interfaceOrientation) {
+                case UIInterfaceOrientationLandscapeLeft:
+                    self.transform = CGAffineTransformMakeRotation(M_PI * 270.0 / 180.0);
+                    break;
+                    
+                case UIInterfaceOrientationLandscapeRight:
+                    self.transform = CGAffineTransformMakeRotation(M_PI * 90.0 / 180.0);
+                    break;
+                    
+                case UIInterfaceOrientationPortraitUpsideDown:
+                    self.transform = CGAffineTransformMakeRotation(M_PI * 180.0 / 180.0);
+                    break;
+                    
+                default:
+                    break;
+            }
         }
         
         [self setFrame:CGRectMake(0, 0, self.frame.size.width, self.frame.size.height)];
@@ -107,12 +112,12 @@ CGFloat buttonSpacerHeight = 0;
     }
     
     [UIView animateWithDuration:0.2f delay:0.0 options:UIViewAnimationOptionCurveEaseInOut
-					 animations:^{
-						 self.backgroundColor = [UIColor colorWithRed:0 green:0 blue:0 alpha:0.4f];
+                     animations:^{
+                         self.backgroundColor = [UIColor colorWithRed:0 green:0 blue:0 alpha:0.4f];
                          dialogView.layer.opacity = 1.0f;
                          dialogView.layer.transform = CATransform3DMakeScale(1, 1, 1);
-					 }
-					 completion:NULL
+                     }
+                     completion:NULL
      ];
 }
 
@@ -147,18 +152,18 @@ CGFloat buttonSpacerHeight = 0;
     dialogView.layer.opacity = 1.0f;
     
     [UIView animateWithDuration:0.2f delay:0.0 options:UIViewAnimationOptionTransitionNone
-					 animations:^{
-						 self.backgroundColor = [UIColor colorWithRed:0.0f green:0.0f blue:0.0f alpha:0.0f];
+                     animations:^{
+                         self.backgroundColor = [UIColor colorWithRed:0.0f green:0.0f blue:0.0f alpha:0.0f];
                          dialogView.layer.transform = CATransform3DConcat(currentTransform, CATransform3DMakeScale(0.6f, 0.6f, 1.0));
                          dialogView.layer.opacity = 0.0f;
-					 }
-					 completion:^(BOOL finished) {
+                     }
+                     completion:^(BOOL finished) {
                          for (UIView *v in [self subviews]) {
                              [v removeFromSuperview];
                          }
                          [self removeFromSuperview];
-					 }
-	 ];
+                     }
+     ];
 }
 
 - (void)setSubView: (UIView *)subView
@@ -286,7 +291,7 @@ CGFloat buttonSpacerHeight = 0;
     CGFloat screenHeight = [UIScreen mainScreen].bounds.size.height;
     
     UIInterfaceOrientation interfaceOrientation = [[UIApplication sharedApplication] statusBarOrientation];
-    if (UIInterfaceOrientationIsLandscape(interfaceOrientation)) {
+    if (UIInterfaceOrientationIsLandscape(interfaceOrientation) && SYSTEM_VERSION_LESS_THAN(@"8.0")) {
         CGFloat tmp = screenWidth;
         screenWidth = screenHeight;
         screenHeight = tmp;
@@ -357,10 +362,10 @@ CGFloat buttonSpacerHeight = 0;
     }
     
     [UIView animateWithDuration:0.2f delay:0.0 options:UIViewAnimationOptionTransitionNone
-					 animations:^{
+                     animations:^{
                          dialogView.transform = rotation;
-					 }
-					 completion:^(BOOL finished){
+                     }
+                     completion:^(BOOL finished){
                          // fix errors caused by being rotated one too many times
                          dispatch_after(dispatch_time(DISPATCH_TIME_NOW, 0.5f * NSEC_PER_SEC), dispatch_get_main_queue(), ^{
                              UIInterfaceOrientation endInterfaceOrientation = [[UIApplication sharedApplication] statusBarOrientation];
@@ -369,7 +374,7 @@ CGFloat buttonSpacerHeight = 0;
                              }
                          });
                      }
-	 ];
+     ];
     
 }
 
@@ -413,11 +418,11 @@ CGFloat buttonSpacerHeight = 0;
     }
     
     [UIView animateWithDuration:0.2f delay:0.0 options:UIViewAnimationOptionTransitionNone
-					 animations:^{
+                     animations:^{
                          dialogView.frame = CGRectMake((screenSize.width - dialogSize.width) / 2, (screenSize.height - keyboardSize.height - dialogSize.height) / 2, dialogSize.width, dialogSize.height);
-					 }
-					 completion:nil
-	 ];
+                     }
+                     completion:nil
+     ];
 }
 
 - (void)keyboardWillHide: (NSNotification *)notification
@@ -426,11 +431,11 @@ CGFloat buttonSpacerHeight = 0;
     CGSize dialogSize = [self countDialogSize];
     
     [UIView animateWithDuration:0.2f delay:0.0 options:UIViewAnimationOptionTransitionNone
-					 animations:^{
+                     animations:^{
                          dialogView.frame = CGRectMake((screenSize.width - dialogSize.width) / 2, (screenSize.height - dialogSize.height) / 2, dialogSize.width, dialogSize.height);
-					 }
-					 completion:nil
-	 ];
+                     }
+                     completion:nil
+     ];
 }
 
 @end
