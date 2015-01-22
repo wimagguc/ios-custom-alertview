@@ -11,9 +11,18 @@
 
 #import <UIKit/UIKit.h>
 
-@protocol CustomIOS7AlertViewDelegate
+@class CustomIOS7AlertView;
 
-- (void)customIOS7dialogButtonTouchUpInside:(id)alertView clickedButtonAtIndex:(NSInteger)buttonIndex;
+@protocol CustomIOS7AlertViewDelegate <NSObject>
+
+@optional
+- (void)customIOS7dialogButtonTouchUpInside:(CustomIOS7AlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex;
+
+- (void)customIOS7AlertViewWillShow:(CustomIOS7AlertView *)alertView;
+- (void)customIOS7AlertViewDidShow:(CustomIOS7AlertView *)alertView;
+
+- (void)customIOS7AlertViewWillHide:(CustomIOS7AlertView *)alertView;
+- (void)customIOS7AlertViewDidHide:(CustomIOS7AlertView *)alertView;
 
 @end
 
