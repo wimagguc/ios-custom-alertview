@@ -25,6 +25,8 @@
 
 @property (nonatomic, assign) id<CustomIOS7AlertViewDelegate> delegate;
 @property (nonatomic, retain) NSArray *buttonTitles;
+@property (nonatomic, retain) UIColor *buttonColorNormal;
+@property (nonatomic, retain) UIColor *buttonColorHighlited;
 @property (nonatomic, assign) BOOL useMotionEffects;
 
 @property (copy) void (^onButtonTouchUpInside)(CustomIOS7AlertView *alertView, int buttonIndex) ;
