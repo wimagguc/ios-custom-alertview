@@ -26,6 +26,8 @@ CGFloat buttonSpacerHeight = 0;
 @synthesize delegate;
 @synthesize buttonTitles;
 @synthesize useMotionEffects;
+@synthesize buttonColorNormal;
+@synthesize buttonColorHighlited;
 
 - (id)initWithParentView: (UIView *)_parentView
 {
@@ -46,6 +48,9 @@ CGFloat buttonSpacerHeight = 0;
         delegate = self;
         useMotionEffects = false;
         buttonTitles = @[@"Close"];
+        
+        buttonColorNormal = [UIColor colorWithRed:0.0f green:0.5f blue:1.0f alpha:1.0f];
+        buttonColorHighlited = [UIColor colorWithRed:0.2f green:0.2f blue:0.2f alpha:0.5f];
 
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(deviceOrientationDidChange:) name:UIDeviceOrientationDidChangeNotification object:nil];
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillShow:) name:UIKeyboardWillShowNotification object:nil];
@@ -237,8 +242,8 @@ CGFloat buttonSpacerHeight = 0;
         [closeButton setTag:i];
 
         [closeButton setTitle:[buttonTitles objectAtIndex:i] forState:UIControlStateNormal];
-        [closeButton setTitleColor:[UIColor colorWithRed:0.0f green:0.5f blue:1.0f alpha:1.0f] forState:UIControlStateNormal];
-        [closeButton setTitleColor:[UIColor colorWithRed:0.2f green:0.2f blue:0.2f alpha:0.5f] forState:UIControlStateHighlighted];
+        [closeButton setTitleColor:buttonColorNormal forState:UIControlStateNormal];
+        [closeButton setTitleColor:buttonColorHighlited forState:UIControlStateHighlighted];
         [closeButton.titleLabel setFont:[UIFont boldSystemFontOfSize:14.0f]];
         [closeButton.layer setCornerRadius:kCustomIOS7AlertViewCornerRadius];
 
