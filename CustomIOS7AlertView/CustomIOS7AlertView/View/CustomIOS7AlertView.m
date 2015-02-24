@@ -58,10 +58,10 @@ CGFloat buttonSpacerHeight = 0;
 - (void)show
 {
     dialogView = [self createContainerView];
-  
+
     dialogView.layer.shouldRasterize = YES;
     dialogView.layer.rasterizationScale = [[UIScreen mainScreen] scale];
-  
+
     self.layer.shouldRasterize = YES;
     self.layer.rasterizationScale = [[UIScreen mainScreen] scale];
 
@@ -90,7 +90,7 @@ CGFloat buttonSpacerHeight = 0;
             case UIInterfaceOrientationLandscapeLeft:
                 self.transform = CGAffineTransformMakeRotation(M_PI * 270.0 / 180.0);
                 break;
-                
+
             case UIInterfaceOrientationLandscapeRight:
                 self.transform = CGAffineTransformMakeRotation(M_PI * 90.0 / 180.0);
                 break;
@@ -197,8 +197,6 @@ CGFloat buttonSpacerHeight = 0;
     [dialogContainer.layer insertSublayer:gradient atIndex:0];
 
     dialogContainer.layer.cornerRadius = cornerRadius;
-    dialogContainer.layer.borderColor = [[UIColor colorWithRed:198.0/255.0 green:198.0/255.0 blue:198.0/255.0 alpha:1.0f] CGColor];
-    dialogContainer.layer.borderWidth = 1;
     dialogContainer.layer.shadowRadius = cornerRadius + 5;
     dialogContainer.layer.shadowOpacity = 0.1f;
     dialogContainer.layer.shadowOffset = CGSizeMake(0 - (cornerRadius+5)/2, 0 - (cornerRadius+5)/2);
