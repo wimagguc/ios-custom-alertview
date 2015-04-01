@@ -1,10 +1,12 @@
-# Custom iOS7 AlertView
+# Custom iOS AlertView
 
-`v0.81`
+`v0.9`
 
-The addSubview is not available in UIAlertView in iOS7 any more. The view hierarchy for this class is private and must not be modified.
+`support for both iOS7 and iOS8`
 
-As a solution, this class creates an iOS7-style dialog which you can extend with any UIViews or buttons. The animations and the looks are copied too and no images or other resources are needed.
+The addSubview is not available in UIAlertView in iOS7 or iOS8 any more. The view hierarchy for this class is private and must not be modified.
+
+As a solution, this class creates an iOS-style dialog which you can extend with any UIViews or buttons. The animations and the looks are copied too and no images or other resources are needed.
 
 ![A demo screen](Docs/screen.png)
 
@@ -12,21 +14,25 @@ As a solution, this class creates an iOS7-style dialog which you can extend with
 
 As simple as adding the following files to your project:
 
-* CustomIOS7AlertView.h
-* CustomIOS7AlertView.m
+* CustomIOSAlertView.h
+* CustomIOSAlertView.m
 
 ## Change notes
 
-The initWithParentView method is now deprecated. Please use the init method instead, where you don't need to pass a parent view at all. **In case the init doesn't work for you, please leave a note or open an issue here.**
+* Fixed rotation for IOS8
+
+* Removed 7 from the class name. Just use CustomIOSAlertView from now on, like: [[CustomIOSAlertView alloc] init];
+
+* The initWithParentView method is now deprecated. Please use the init method instead, where you don't need to pass a parent view at all. **In case the init doesn't work for you, please leave a note or open an issue here.**
 
 ## Quick start guide
 
 1. Create the UIView object `changed`
 
     ```
-    CustomIOS7AlertView *alertView = [[CustomIOS7AlertView alloc] init];
+    CustomIOSAlertView *alertView = [[CustomIOSAlertView alloc] init];
     ```
-  
+
 2. Add some custom content to the alert view (optional)
 
     ```
@@ -78,7 +84,7 @@ The initWithParentView method is now deprecated. Please use the init method inst
     Then add the delegate methods:
 
     ```
-    - (void)customIOS7dialogButtonTouchUpInside: (CustomIOS7AlertView *)alertView clickedButtonAtIndex: (NSInteger)buttonIndex
+    - (void)customIOS7dialogButtonTouchUpInside: (CustomIOSAlertView *)alertView clickedButtonAtIndex: (NSInteger)buttonIndex
     {
         NSLog(@"Button at position %d is clicked on alertView %d.", buttonIndex, [alertView tag]);
     }
@@ -87,7 +93,7 @@ The initWithParentView method is now deprecated. Please use the init method inst
 * Handle button clicks with a code block
 
     ```
-    [alertView setOnButtonTouchUpInside:^(CustomIOS7AlertView *alertView, int buttonIndex) {
+    [alertView setOnButtonTouchUpInside:^(CustomIOSAlertView *alertView, int buttonIndex) {
         NSLog(@"Block: Button at position %d is clicked on alertView %d.", buttonIndex, [alertView tag]);
         [alertView close];
     }];
@@ -147,7 +153,7 @@ THE SOFTWARE.
 
 ## Other projects
 
-Check out [AppWoodoo](http://www.appwoodoo.com/), our remote app settings (and A/B testing) service. It's open source and free to use.
+Check out [AppWoodoo](http://www.appwoodoo.com/) for push notifications and remote app control service. Open source SDKs are available on Github: [github.com/appwoodoo](https://github.com/appwoodoo?tab=repositories).
 
 Some more of my free stuff for web devs at [Github](https://github.com/wimagguc?tab=repositories).
 

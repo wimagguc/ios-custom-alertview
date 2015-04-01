@@ -1,9 +1,9 @@
 //
 //  main.m
-//  CustomIOS7AlertView
+//  CustomIOSAlertView
 //
 //  Created by Richard on 20/09/2013.
-//  Copyright (c) 2013 Wimagguc. All rights reserved.
+//  Copyright (c) 2013-2015 Wimagguc.
 //
 
 #import <UIKit/UIKit.h>

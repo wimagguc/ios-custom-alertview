@@ -1,23 +1,23 @@
 //
-//  CustomIOS7AlertView.m
-//  CustomIOS7AlertView
+//  CustomIOSAlertView.m
+//  CustomIOSAlertView
 //
 //  Created by Richard on 20/09/2013.
-//  Copyright (c) 2013 Wimagguc.
+//  Copyright (c) 2013-2015 Wimagguc.
 //
 //  Lincesed under The MIT License (MIT)
 //  http://opensource.org/licenses/MIT
 //
 
-#import "CustomIOS7AlertView.h"
+#import "CustomIOSAlertView.h"
 #import <QuartzCore/QuartzCore.h>
 
-const static CGFloat kCustomIOS7AlertViewDefaultButtonHeight       = 50;
-const static CGFloat kCustomIOS7AlertViewDefaultButtonSpacerHeight = 1;
-const static CGFloat kCustomIOS7AlertViewCornerRadius              = 7;
-const static CGFloat kCustomIOS7MotionEffectExtent                 = 10.0;
+const static CGFloat kCustomIOSAlertViewDefaultButtonHeight       = 50;
+const static CGFloat kCustomIOSAlertViewDefaultButtonSpacerHeight = 1;
+const static CGFloat kCustomIOSAlertViewCornerRadius              = 7;
+const static CGFloat kCustomIOS7MotionEffectExtent                = 10.0;
 
-@implementation CustomIOS7AlertView
+@implementation CustomIOSAlertView
 
 CGFloat buttonHeight = 0;
 CGFloat buttonSpacerHeight = 0;
@@ -132,7 +132,7 @@ CGFloat buttonSpacerHeight = 0;
 }
 
 // Default button behaviour
-- (void)customIOS7dialogButtonTouchUpInside: (CustomIOS7AlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
+- (void)customIOS7dialogButtonTouchUpInside: (CustomIOSAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
 {
     NSLog(@"Button Clicked! %d, %d", (int)buttonIndex, (int)[alertView tag]);
     [self close];
@@ -194,7 +194,7 @@ CGFloat buttonSpacerHeight = 0;
                        (id)[[UIColor colorWithRed:218.0/255.0 green:218.0/255.0 blue:218.0/255.0 alpha:1.0f] CGColor],
                        nil];
 
-    CGFloat cornerRadius = kCustomIOS7AlertViewCornerRadius;
+    CGFloat cornerRadius = kCustomIOSAlertViewCornerRadius;
     gradient.cornerRadius = cornerRadius;
     [dialogContainer.layer insertSublayer:gradient atIndex:0];
 
@@ -242,7 +242,7 @@ CGFloat buttonSpacerHeight = 0;
         [closeButton setTitleColor:[UIColor colorWithRed:0.0f green:0.5f blue:1.0f alpha:1.0f] forState:UIControlStateNormal];
         [closeButton setTitleColor:[UIColor colorWithRed:0.2f green:0.2f blue:0.2f alpha:0.5f] forState:UIControlStateHighlighted];
         [closeButton.titleLabel setFont:[UIFont boldSystemFontOfSize:14.0f]];
-        [closeButton.layer setCornerRadius:kCustomIOS7AlertViewCornerRadius];
+        [closeButton.layer setCornerRadius:kCustomIOSAlertViewCornerRadius];
 
         [container addSubview:closeButton];
     }
@@ -261,8 +261,8 @@ CGFloat buttonSpacerHeight = 0;
 - (CGSize)countScreenSize
 {
     if (buttonTitles!=NULL && [buttonTitles count] > 0) {
-        buttonHeight       = kCustomIOS7AlertViewDefaultButtonHeight;
-        buttonSpacerHeight = kCustomIOS7AlertViewDefaultButtonSpacerHeight;
+        buttonHeight       = kCustomIOSAlertViewDefaultButtonHeight;
+        buttonSpacerHeight = kCustomIOSAlertViewDefaultButtonSpacerHeight;
     } else {
         buttonHeight = 0;
         buttonSpacerHeight = 0;
