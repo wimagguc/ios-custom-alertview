@@ -1,6 +1,6 @@
 # Custom iOS AlertView
 
-`v0.9`
+`v0.9.2`
 
 `support for both iOS7 and iOS8`
 

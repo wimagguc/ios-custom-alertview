@@ -73,9 +73,6 @@ CGFloat buttonSpacerHeight = 0;
     }
 #endif
 
-    dialogView.layer.opacity = 0.5f;
-    dialogView.layer.transform = CATransform3DMakeScale(1.3f, 1.3f, 1.0);
-
     self.backgroundColor = [UIColor colorWithRed:0 green:0 blue:0 alpha:0];
 
     [self addSubview:dialogView];
@@ -85,29 +82,48 @@ CGFloat buttonSpacerHeight = 0;
     if (parentView != NULL) {
         [parentView addSubview:self];
 
-    // Attached to the top most window (make sure we are using the right orientation):
+    // Attached to the top most window
     } else {
-        UIInterfaceOrientation interfaceOrientation = [[UIApplication sharedApplication] statusBarOrientation];
-        switch (interfaceOrientation) {
-            case UIInterfaceOrientationLandscapeLeft:
-                self.transform = CGAffineTransformMakeRotation(M_PI * 270.0 / 180.0);
-                break;
-                
-            case UIInterfaceOrientationLandscapeRight:
-                self.transform = CGAffineTransformMakeRotation(M_PI * 90.0 / 180.0);
-                break;
 
-            case UIInterfaceOrientationPortraitUpsideDown:
-                self.transform = CGAffineTransformMakeRotation(M_PI * 180.0 / 180.0);
-                break;
+        // On iOS7, calculate with orientation
+        if (floor(NSFoundationVersionNumber) <= NSFoundationVersionNumber_iOS_7_1) {
+            
+            UIInterfaceOrientation interfaceOrientation = [[UIApplication sharedApplication] statusBarOrientation];
+            switch (interfaceOrientation) {
+                case UIInterfaceOrientationLandscapeLeft:
+                    self.transform = CGAffineTransformMakeRotation(M_PI * 270.0 / 180.0);
+                    break;
+                    
+                case UIInterfaceOrientationLandscapeRight:
+                    self.transform = CGAffineTransformMakeRotation(M_PI * 90.0 / 180.0);
+                    break;
+                    
+                case UIInterfaceOrientationPortraitUpsideDown:
+                    self.transform = CGAffineTransformMakeRotation(M_PI * 180.0 / 180.0);
+                    break;
+                    
+                default:
+                    break;
+            }
+            
+            [self setFrame:CGRectMake(0, 0, self.frame.size.width, self.frame.size.height)];
 
-            default:
-                break;
+        // On iOS8, just place the dialog in the middle
+        } else {
+
+            CGSize screenSize = [self countScreenSize];
+            CGSize dialogSize = [self countDialogSize];
+            CGSize keyboardSize = CGSizeMake(0, 0);
+
+            dialogView.frame = CGRectMake((screenSize.width - dialogSize.width) / 2, (screenSize.height - keyboardSize.height - dialogSize.height) / 2, dialogSize.width, dialogSize.height);
+
         }
 
-        [self setFrame:CGRectMake(0, 0, self.frame.size.width, self.frame.size.height)];
         [[[[UIApplication sharedApplication] windows] firstObject] addSubview:self];
     }
+
+    dialogView.layer.opacity = 0.5f;
+    dialogView.layer.transform = CATransform3DMakeScale(1.3f, 1.3f, 1.0);
 
     [UIView animateWithDuration:0.2f delay:0.0 options:UIViewAnimationOptionCurveEaseInOut
 					 animations:^{
@@ -117,6 +133,7 @@ CGFloat buttonSpacerHeight = 0;
 					 }
 					 completion:NULL
      ];
+
 }
 
 // Button has been touched
@@ -143,10 +160,13 @@ CGFloat buttonSpacerHeight = 0;
 {
     CATransform3D currentTransform = dialogView.layer.transform;
 
-    CGFloat startRotation = [[dialogView valueForKeyPath:@"layer.transform.rotation.z"] floatValue];
-    CATransform3D rotation = CATransform3DMakeRotation(-startRotation + M_PI * 270.0 / 180.0, 0.0f, 0.0f, 0.0f);
+    if (floor(NSFoundationVersionNumber) <= NSFoundationVersionNumber_iOS_7_1) {
+        CGFloat startRotation = [[dialogView valueForKeyPath:@"layer.transform.rotation.z"] floatValue];
+        CATransform3D rotation = CATransform3DMakeRotation(-startRotation + M_PI * 270.0 / 180.0, 0.0f, 0.0f, 0.0f);
 
-    dialogView.layer.transform = CATransform3DConcat(rotation, CATransform3DMakeScale(1, 1, 1));
+        dialogView.layer.transform = CATransform3DConcat(rotation, CATransform3DMakeScale(1, 1, 1));
+    }
+
     dialogView.layer.opacity = 1.0f;
 
     [UIView animateWithDuration:0.2f delay:0.0 options:UIViewAnimationOptionTransitionNone
@@ -271,13 +291,16 @@ CGFloat buttonSpacerHeight = 0;
     CGFloat screenWidth = [UIScreen mainScreen].bounds.size.width;
     CGFloat screenHeight = [UIScreen mainScreen].bounds.size.height;
 
-    UIInterfaceOrientation interfaceOrientation = [[UIApplication sharedApplication] statusBarOrientation];
-    if (UIInterfaceOrientationIsLandscape(interfaceOrientation)) {
-        CGFloat tmp = screenWidth;
-        screenWidth = screenHeight;
-        screenHeight = tmp;
+    // On iOS7, screen width and height doesn't automatically follow orientation
+    if (floor(NSFoundationVersionNumber) <= NSFoundationVersionNumber_iOS_7_1) {
+        UIInterfaceOrientation interfaceOrientation = [[UIApplication sharedApplication] statusBarOrientation];
+        if (UIInterfaceOrientationIsLandscape(interfaceOrientation)) {
+            CGFloat tmp = screenWidth;
+            screenWidth = screenHeight;
+            screenHeight = tmp;
+        }
     }
-
+    
     return CGSizeMake(screenWidth, screenHeight);
 }
 
@@ -356,7 +379,7 @@ CGFloat buttonSpacerHeight = 0;
 
     CGFloat screenWidth = [UIScreen mainScreen].bounds.size.width;
     CGFloat screenHeight = [UIScreen mainScreen].bounds.size.height;
-    
+
     [UIView animateWithDuration:0.2f delay:0.0 options:UIViewAnimationOptionTransitionNone
                      animations:^{
                          CGSize dialogSize = [self countDialogSize];
