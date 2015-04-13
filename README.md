@@ -1,6 +1,6 @@
 # Custom iOS AlertView
 
-`v0.9.2`
+`v0.9.3`
 
 `support for both iOS7 and iOS8`
 
@@ -16,6 +16,12 @@ As simple as adding the following files to your project:
 
 * CustomIOSAlertView.h
 * CustomIOSAlertView.m
+
+Or use Cocoapods:
+
+```
+pod 'CustomIOSAlertView', '~> 0.9.3'
+```
 
 ## Change notes
 
