@@ -12,9 +12,9 @@
 #import "CustomIOSAlertView.h"
 #import <QuartzCore/QuartzCore.h>
 
-const static CGFloat kCustomIOSAlertViewDefaultButtonHeight       = 50;
+const static CGFloat kCustomIOSAlertViewDefaultButtonHeight       = 44;
 const static CGFloat kCustomIOSAlertViewDefaultButtonSpacerHeight = 1;
-const static CGFloat kCustomIOSAlertViewCornerRadius              = 7;
+const static CGFloat kCustomIOSAlertViewCornerRadius              = 6;
 const static CGFloat kCustomIOS7MotionEffectExtent                = 10.0;
 
 @implementation CustomIOSAlertView
@@ -259,9 +259,9 @@ CGFloat buttonSpacerHeight = 0;
         [closeButton setTag:i];
 
         [closeButton setTitle:[buttonTitles objectAtIndex:i] forState:UIControlStateNormal];
-        [closeButton setTitleColor:[UIColor colorWithRed:0.0f green:0.5f blue:1.0f alpha:1.0f] forState:UIControlStateNormal];
+        [closeButton setTitleColor:[UIColor colorWithRed:3.0f/255.0f green:122.0f/255.0f blue:1.0f alpha:1.0f] forState:UIControlStateNormal];
         [closeButton setTitleColor:[UIColor colorWithRed:0.2f green:0.2f blue:0.2f alpha:0.5f] forState:UIControlStateHighlighted];
-        [closeButton.titleLabel setFont:[UIFont boldSystemFontOfSize:14.0f]];
+        [closeButton.titleLabel setFont:[UIFont boldSystemFontOfSize:17.0f]];
         [closeButton.layer setCornerRadius:kCustomIOSAlertViewCornerRadius];
 
         [container addSubview:closeButton];
