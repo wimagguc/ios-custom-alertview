@@ -401,11 +401,13 @@ CGFloat buttonSpacerHeight = 0;
         return;
     }
 
-    if (floor(NSFoundationVersionNumber) <= NSFoundationVersionNumber_iOS_7_1) {
-        [self changeOrientationForIOS7];
-    } else {
-        [self changeOrientationForIOS8:notification];
-    }
+    dispatch_async(dispatch_get_main_queue(), ^{
+        if (floor(NSFoundationVersionNumber) <= NSFoundationVersionNumber_iOS_7_1) {
+            [self changeOrientationForIOS7];
+        } else {
+            [self changeOrientationForIOS8:notification];
+        }
+    });
 }
 
 // Handle keyboard show/hide changes
