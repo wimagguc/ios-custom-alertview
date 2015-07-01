@@ -416,7 +416,7 @@ CGFloat buttonSpacerHeight = 0;
     CGSize keyboardSize = [[[notification userInfo] objectForKey:UIKeyboardFrameBeginUserInfoKey] CGRectValue].size;
 
     UIInterfaceOrientation interfaceOrientation = [[UIApplication sharedApplication] statusBarOrientation];
-    if (UIInterfaceOrientationIsLandscape(interfaceOrientation)) {
+    if (UIInterfaceOrientationIsLandscape(interfaceOrientation) && NSFoundationVersionNumber <= NSFoundationVersionNumber_iOS_7_1) {
         CGFloat tmp = keyboardSize.height;
         keyboardSize.height = keyboardSize.width;
         keyboardSize.width = tmp;
