@@ -209,6 +209,7 @@ CGFloat buttonSpacerHeight = 0;
     //BUddyHopp customization
     CALayer *layer = [CALayer layer];
     layer.frame = dialogContainer.bounds;
+    layer.backgroundColor = [UIColor whiteColor].CGColor;
     CGFloat cornerRadius = kCustomIOSAlertViewCornerRadius;
     layer.cornerRadius = cornerRadius;
     [dialogContainer.layer insertSublayer:layer atIndex:0];
