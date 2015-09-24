@@ -45,7 +45,12 @@
     [alertView setContainerView:[self createDemoView]];
 
     // Modify the parameters
-    [alertView setButtonTitles:[NSMutableArray arrayWithObjects:@"Close1", @"Close2", @"Close3", nil]];
+    [alertView setButtonTitles:[NSMutableArray arrayWithObjects:@"Default", @"Cancel", @"Destructive", nil]];
+    [alertView setButtonStyles: @{
+                                  [NSNumber numberWithInt: 0] : [NSNumber numberWithInt:UIAlertActionStyleDefault],
+                                  [NSNumber numberWithInt: 1] : [NSNumber numberWithInt:UIAlertActionStyleCancel],
+                                  [NSNumber numberWithInt: 2] : [NSNumber numberWithInt:UIAlertActionStyleDestructive],
+                                  }];
     [alertView setDelegate:self];
     
     // You may use a Block, rather than a delegate.
