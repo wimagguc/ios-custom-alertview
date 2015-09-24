@@ -25,6 +25,7 @@ CGFloat buttonSpacerHeight = 0;
 @synthesize parentView, containerView, dialogView, onButtonTouchUpInside;
 @synthesize delegate;
 @synthesize buttonTitles;
+@synthesize buttonStyles;
 @synthesize useMotionEffects;
 
 - (id)initWithParentView: (UIView *)_parentView
@@ -266,12 +267,37 @@ CGFloat buttonSpacerHeight = 0;
 
         [closeButton addTarget:self action:@selector(customIOS7dialogButtonTouchUpInside:) forControlEvents:UIControlEventTouchUpInside];
         [closeButton setTag:i];
-
+        
         [closeButton setTitle:[buttonTitles objectAtIndex:i] forState:UIControlStateNormal];
-        [closeButton setTitleColor:[UIColor colorWithRed:3.0f/255.0f green:122.0f/255.0f blue:1.0f alpha:1.0f] forState:UIControlStateNormal];
-        [closeButton setTitleColor:[UIColor colorWithRed:0.2f green:0.2f blue:0.2f alpha:0.5f] forState:UIControlStateHighlighted];
-        [closeButton.titleLabel setFont:[UIFont boldSystemFontOfSize:17.0f]];
         [closeButton.layer setCornerRadius:kCustomIOSAlertViewCornerRadius];
+        
+        UIColor *normalTitleColor;
+        UIColor *highlightedTitleColor;
+        UIFont *font;
+        
+        NSNumber *style = [buttonStyles objectForKey: [NSNumber numberWithInt: i]];
+        
+        switch ([style intValue]) {
+            case UIAlertActionStyleDefault:
+                normalTitleColor = [UIColor colorWithRed:3.0f/255.0f green:122.0f/255.0f blue:1.0f alpha:1.0f];
+                highlightedTitleColor = [UIColor colorWithRed:0.2f green:0.2f blue:0.2f alpha:0.5f];
+                font = [UIFont boldSystemFontOfSize:17.0f];
+                break;
+            case UIAlertActionStyleCancel:
+                normalTitleColor = [UIColor colorWithRed:3.0f/255.0f green:122.0f/255.0f blue:1.0f alpha:1.0f];
+                highlightedTitleColor = [UIColor colorWithRed:0.2f green:0.2f blue:0.2f alpha:0.5f];
+                font = [UIFont systemFontOfSize:17.0f];
+                break;
+            case UIAlertActionStyleDestructive:
+                normalTitleColor = [UIColor colorWithRed:255.0f/255.0f green:0.0f blue:0.0f alpha:1.0f];
+                highlightedTitleColor = [UIColor colorWithRed:0.2f green:0.2f blue:0.2f alpha:0.5f];
+                font = [UIFont systemFontOfSize:17.0f];
+                break;
+        }
+        
+        [closeButton setTitleColor:normalTitleColor forState:UIControlStateNormal];
+        [closeButton setTitleColor:highlightedTitleColor forState:UIControlStateHighlighted];
+        [closeButton.titleLabel setFont:font];
 
         [container addSubview:closeButton];
     }
