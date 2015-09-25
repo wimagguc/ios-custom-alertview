@@ -282,12 +282,12 @@ CGFloat buttonSpacerHeight = 0;
             case UIAlertActionStyleDefault:
                 normalTitleColor = [UIColor colorWithRed:0.0f green:118.0f/255.0f blue:1.0f alpha:1.0f];
                 highlightedTitleColor = [UIColor colorWithRed:0.2f green:0.2f blue:0.2f alpha:0.5f];
-                font = [UIFont boldSystemFontOfSize:17.0f];
+                font = [UIFont systemFontOfSize:17.0f];
                 break;
             case UIAlertActionStyleCancel:
                 normalTitleColor = [UIColor colorWithRed:0.0f green:118.0f/255.0f blue:1.0f alpha:1.0f];
                 highlightedTitleColor = [UIColor colorWithRed:0.2f green:0.2f blue:0.2f alpha:0.5f];
-                font = [UIFont systemFontOfSize:17.0f];
+                font = [UIFont boldSystemFontOfSize:17.0f];
                 break;
             case UIAlertActionStyleDestructive:
                 normalTitleColor = [UIColor colorWithRed:1.0f green:56.0f/255.0f blue:36.0f/255.0f alpha:1.0f];
