@@ -25,6 +25,7 @@
 
 @property (nonatomic, assign) id<CustomIOSAlertViewDelegate> delegate;
 @property (nonatomic, retain) NSArray *buttonTitles;
+@property (nonatomic, retain) NSDictionary *buttonStyles;
 @property (nonatomic, assign) BOOL useMotionEffects;
 
 @property (copy) void (^onButtonTouchUpInside)(CustomIOSAlertView *alertView, int buttonIndex) ;
