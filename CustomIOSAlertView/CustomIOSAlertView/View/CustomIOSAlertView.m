@@ -21,6 +21,7 @@ const static CGFloat kCustomIOS7MotionEffectExtent                = 10.0;
 
 CGFloat buttonHeight = 0;
 CGFloat buttonSpacerHeight = 0;
+CGSize keyboardLastKnownSize;
 
 @synthesize parentView, containerView, dialogView, onButtonTouchUpInside;
 @synthesize delegate;
@@ -383,7 +384,7 @@ CGFloat buttonSpacerHeight = 0;
     [UIView animateWithDuration:0.2f delay:0.0 options:UIViewAnimationOptionTransitionNone
                      animations:^{
                          CGSize dialogSize = [self countDialogSize];
-                         CGSize keyboardSize = [[[notification userInfo] objectForKey:UIKeyboardFrameBeginUserInfoKey] CGRectValue].size;
+                         CGSize keyboardSize = keyboardLastKnownSize;
                          self.frame = CGRectMake(0, 0, screenWidth, screenHeight);
                          dialogView.frame = CGRectMake((screenWidth - dialogSize.width) / 2, (screenHeight - keyboardSize.height - dialogSize.height) / 2, dialogSize.width, dialogSize.height);
                      }
@@ -413,7 +414,7 @@ CGFloat buttonSpacerHeight = 0;
 {
     CGSize screenSize = [self countScreenSize];
     CGSize dialogSize = [self countDialogSize];
-    CGSize keyboardSize = [[[notification userInfo] objectForKey:UIKeyboardFrameBeginUserInfoKey] CGRectValue].size;
+    CGSize keyboardSize = [[[notification userInfo] objectForKey:UIKeyboardFrameEndUserInfoKey] CGRectValue].size;
 
     UIInterfaceOrientation interfaceOrientation = [[UIApplication sharedApplication] statusBarOrientation];
     if (UIInterfaceOrientationIsLandscape(interfaceOrientation) && NSFoundationVersionNumber <= NSFoundationVersionNumber_iOS_7_1) {
@@ -428,6 +429,8 @@ CGFloat buttonSpacerHeight = 0;
 					 }
 					 completion:nil
 	 ];
+    
+    keyboardLastKnownSize = keyboardSize;
 }
 
 - (void)keyboardWillHide: (NSNotification *)notification
