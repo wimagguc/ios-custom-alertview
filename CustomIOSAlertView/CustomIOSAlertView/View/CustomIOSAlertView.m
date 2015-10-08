@@ -119,7 +119,7 @@ CGFloat buttonSpacerHeight = 0;
 
         }
 
-        [[[[UIApplication sharedApplication] windows] firstObject] addSubview:self];
+        [[[UIApplication sharedApplication] keyWindow] addSubview:self];
     }
 
     dialogView.layer.opacity = 0.5f;
