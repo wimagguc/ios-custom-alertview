@@ -39,10 +39,16 @@
 - (void)show;
 - (void)close;
 
+/*
+//the method don't need to declare in CustomIOSAlertView.h that is a private method.
 - (IBAction)customIOS7dialogButtonTouchUpInside:(id)sender;
+
+//the method don't need to declare in CustomIOSAlertView.h that property of onButtonTouchUpInside can automatically create.
 - (void)setOnButtonTouchUpInside:(void (^)(CustomIOSAlertView *alertView, int buttonIndex))onButtonTouchUpInside;
 
+//the method don't need to declare in CustomIOSAlertView.h that is a private method.
 - (void)deviceOrientationDidChange: (NSNotification *)notification;
-- (void)dealloc;
 
+- (void)dealloc;
+*/
 @end
