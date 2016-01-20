@@ -451,4 +451,16 @@ CGFloat buttonSpacerHeight = 0;
      ];
 }
 
+- (BOOL)didShowAlertView {
+    if (dialogView) {
+        if (dialogView.alpha == 0) {
+            return false;
+        } else {
+            return true;
+        }
+    } else {
+        return false;
+    }
+}
+
 @end
