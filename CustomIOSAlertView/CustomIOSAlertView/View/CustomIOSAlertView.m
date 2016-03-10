@@ -26,6 +26,7 @@ CGFloat buttonSpacerHeight = 0;
 @synthesize delegate;
 @synthesize buttonTitles;
 @synthesize useMotionEffects;
+@synthesize buttonFont;
 
 - (id)initWithParentView: (UIView *)_parentView
 {
@@ -261,7 +262,7 @@ CGFloat buttonSpacerHeight = 0;
         [closeButton setTitle:[buttonTitles objectAtIndex:i] forState:UIControlStateNormal];
         [closeButton setTitleColor:[UIColor colorWithRed:0.0f green:0.5f blue:1.0f alpha:1.0f] forState:UIControlStateNormal];
         [closeButton setTitleColor:[UIColor colorWithRed:0.2f green:0.2f blue:0.2f alpha:0.5f] forState:UIControlStateHighlighted];
-        [closeButton.titleLabel setFont:[UIFont boldSystemFontOfSize:14.0f]];
+        [closeButton.titleLabel setFont:(buttonFont==NULL?[UIFont boldSystemFontOfSize:14.0f]:buttonFont)];
         [closeButton.layer setCornerRadius:kCustomIOSAlertViewCornerRadius];
 
         [container addSubview:closeButton];
