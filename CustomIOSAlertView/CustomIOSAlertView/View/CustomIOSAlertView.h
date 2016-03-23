@@ -39,6 +39,11 @@
 - (void)show;
 - (void)close;
 
+/*
+  did alertView already show
+ */
+- (BOOL)didShowAlertView;
+
 - (IBAction)customIOS7dialogButtonTouchUpInside:(id)sender;
 - (void)setOnButtonTouchUpInside:(void (^)(CustomIOSAlertView *alertView, int buttonIndex))onButtonTouchUpInside;
 
