@@ -122,7 +122,15 @@ CGSize currentKeyboardSize;
             
         }
         
-        [[[[UIApplication sharedApplication] windows] firstObject] addSubview:self];
+        for (id window in [[UIApplication sharedApplication] windows]) {
+            if ([window isKindOfClass:[UIWindow class]]) {
+                UIWindow *currentWindow = (UIWindow *)window;
+                if (!currentWindow.hidden) {
+                    [currentWindow addSubview:self];
+                    break;
+                }
+            }
+        }
     }
     
     dialogView.layer.opacity = 0.5f;
