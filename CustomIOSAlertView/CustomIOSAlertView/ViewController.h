@@ -14,4 +14,6 @@
 
 @interface ViewController : UIViewController<CustomIOSAlertViewDelegate>
 
+@property (strong, nonatomic) CustomIOSAlertView *alertView;
+
 @end

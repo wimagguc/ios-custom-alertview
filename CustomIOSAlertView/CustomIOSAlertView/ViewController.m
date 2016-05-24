@@ -36,28 +36,38 @@
     [self.view addSubview:launchDialog];
 }
 
+-(void)viewWillTransitionToSize:(CGSize)size withTransitionCoordinator:(id<UIViewControllerTransitionCoordinator>)coordinator {
+    [coordinator animateAlongsideTransition:^(id<UIViewControllerTransitionCoordinatorContext> context) {
+        [self.alertView rotate];
+     } completion:^(id<UIViewControllerTransitionCoordinatorContext> context) {
+         
+     }];
+    
+    [super viewWillTransitionToSize:size withTransitionCoordinator:coordinator];
+}
+
 - (IBAction)launchDialog:(id)sender
 {
     // Here we need to pass a full frame
-    CustomIOSAlertView *alertView = [[CustomIOSAlertView alloc] init];
+    self.alertView = [[CustomIOSAlertView alloc] init];
 
     // Add some custom content to the alert view
-    [alertView setContainerView:[self createDemoView]];
+    [self.alertView setContainerView:[self createDemoView]];
 
     // Modify the parameters
-    [alertView setButtonTitles:[NSMutableArray arrayWithObjects:@"Close1", @"Close2", @"Close3", nil]];
-    [alertView setDelegate:self];
+    [self.alertView setButtonTitles:[NSMutableArray arrayWithObjects:@"Close1", @"Close2", @"Close3", nil]];
+    [self.alertView setDelegate:self];
     
     // You may use a Block, rather than a delegate.
-    [alertView setOnButtonTouchUpInside:^(CustomIOSAlertView *alertView, int buttonIndex) {
+    [self.alertView setOnButtonTouchUpInside:^(CustomIOSAlertView *alertView, int buttonIndex) {
         NSLog(@"Block: Button at position %d is clicked on alertView %d.", buttonIndex, (int)[alertView tag]);
         [alertView close];
     }];
     
-    [alertView setUseMotionEffects:true];
+    [self.alertView setUseMotionEffects:true];
 
     // And launch the dialog
-    [alertView show];
+    [self.alertView show];
 }
 
 - (void)customIOS7dialogButtonTouchUpInside: (CustomIOSAlertView *)alertView clickedButtonAtIndex: (NSInteger)buttonIndex

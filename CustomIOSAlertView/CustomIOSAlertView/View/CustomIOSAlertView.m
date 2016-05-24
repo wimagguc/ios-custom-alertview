@@ -49,7 +49,7 @@ CGFloat buttonSpacerHeight = 0;
         
         [[UIDevice currentDevice] beginGeneratingDeviceOrientationNotifications];
 
-        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(deviceOrientationDidChange:) name:UIDeviceOrientationDidChangeNotification object:nil];
+        //[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(deviceOrientationDidChange:) name:UIDeviceOrientationDidChangeNotification object:nil];
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillShow:) name:UIKeyboardWillShowNotification object:nil];
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillHide:) name:UIKeyboardWillHideNotification object:nil];
     }
@@ -333,7 +333,7 @@ CGFloat buttonSpacerHeight = 0;
 {
     [[UIDevice currentDevice] endGeneratingDeviceOrientationNotifications];
 
-    [[NSNotificationCenter defaultCenter] removeObserver:self name:UIDeviceOrientationDidChangeNotification object:nil];
+    //[[NSNotificationCenter defaultCenter] removeObserver:self name:UIDeviceOrientationDidChangeNotification object:nil];
     [[NSNotificationCenter defaultCenter] removeObserver:self name:UIKeyboardWillHideNotification object:nil];
     [[NSNotificationCenter defaultCenter] removeObserver:self name:UIKeyboardWillShowNotification object:nil];
 }
@@ -389,12 +389,10 @@ CGFloat buttonSpacerHeight = 0;
                      }
                      completion:nil
      ];
-    
-
 }
 
 // Handle device orientation changes
-- (void)deviceOrientationDidChange: (NSNotification *)notification
+-(void)rotate
 {
     // If dialog is attached to the parent view, it probably wants to handle the orientation change itself
     if (parentView != NULL) {
@@ -404,7 +402,7 @@ CGFloat buttonSpacerHeight = 0;
     if (floor(NSFoundationVersionNumber) <= NSFoundationVersionNumber_iOS_7_1) {
         [self changeOrientationForIOS7];
     } else {
-        [self changeOrientationForIOS8:notification];
+        [self changeOrientationForIOS8:nil];
     }
 }
 
