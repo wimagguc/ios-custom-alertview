@@ -1,10 +1,10 @@
 # Custom iOS AlertView
 
-`v0.9.3`
+`v0.9.4`
 
-`support for both iOS7 and iOS8`
+`support for iOS7+`
 
-The addSubview is not available in UIAlertView in iOS7 or iOS8 any more. The view hierarchy for this class is private and must not be modified.
+The addSubview is not available in UIAlertView since iOS7. The view hierarchy for this class is private and must not be modified.
 
 As a solution, this class creates an iOS-style dialog which you can extend with any UIViews or buttons. The animations and the looks are copied too and no images or other resources are needed.
 
@@ -20,7 +20,7 @@ As simple as adding the following files to your project:
 Or use Cocoapods:
 
 ```
-pod 'CustomIOSAlertView', '~> 0.9.3'
+pod 'CustomIOSAlertView', '~> 0.9.4'
 ```
 
 ## Change notes
@@ -128,6 +128,8 @@ This is a really quick implementation, and there are a few things missing:
 * [@scorpiozj](https://github.com/scorpiozj) for his work on the rotation code
 * [@kwent](https://github.com/kwent) for adding performance optimisations
 * [@thomasaw](https://github.com/thomasaw) for the refract on the deprecated initWithParentview
+* [@yiboyu](https://github.com/yiboyu) for the multi-line button fix
+
 
 ## License
 
@@ -135,7 +137,7 @@ MIT. Please read [LICENSE.md](https://github.com/wimagguc/ios-custom-alertview/b
 
 ## Other projects
 
-Check out [AppWoodoo](http://www.appwoodoo.com/) for push notifications and remote app control service. Open source SDKs are available on Github: [github.com/appwoodoo](https://github.com/appwoodoo?tab=repositories).
+Check out [Appwoodoo](http://www.appwoodoo.com/) for push notifications and remote app control service. Open source SDKs are available on Github: [github.com/appwoodoo](https://github.com/appwoodoo?tab=repositories).
 
 Some more of my free stuff for web devs at [Github](https://github.com/wimagguc?tab=repositories).
 
@@ -148,4 +150,3 @@ Richard Dancsi
 
 twitter: [@wimagguc](http://twitter.com/wimagguc)  
 linkedin: [linkedin.com/in/richarddancsi](http://linkedin.com/in/richarddancsi)  
-gplus: [plus.google.com/u/0/115939246085616544919](https://plus.google.com/u/0/115939246085616544919)  
