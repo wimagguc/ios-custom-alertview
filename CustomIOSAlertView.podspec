@@ -1,11 +1,11 @@
 Pod::Spec.new do |s|
 
   s.name         = "CustomIOSAlertView"
-  s.version      = "0.9.3"
-  s.summary      = "Custom UIAlertView. Continue adding images and UIViews to dialogs on iOS7 and iOS8 as well."
+  s.version      = "0.9.4"
+  s.summary      = "Custom UIAlertView. Continue adding images and UIViews to dialogs on iOS7+."
 
   s.description  = <<-DESC
-                   The addSubview is not available in UIAlertView in iOS7 or iOS8 any more. The view hierarchy for this
+                   The addSubview is not available in UIAlertView in iOS7+. The view hierarchy for this
                    class is private and must not be modified. As a solution, this class creates an iOS-style dialog which
                    you can extend with any UIViews or buttons. The animations and the looks are copied too and no images
                    or other resources are needed.
@@ -21,7 +21,7 @@ Pod::Spec.new do |s|
 
   s.platform     = :ios
 
-  s.source       = { :git => "https://github.com/wimagguc/ios-custom-alertview.git", :tag => "0.9.3" }
+  s.source       = { :git => "https://github.com/wimagguc/ios-custom-alertview.git", :tag => "0.9.4" }
 
   s.source_files  = "CustomIOSAlertView/CustomIOSAlertView/View/**/*.{h,m}"
 
