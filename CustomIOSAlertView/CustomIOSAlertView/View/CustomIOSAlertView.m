@@ -26,6 +26,7 @@ CGFloat buttonSpacerHeight = 0;
 @synthesize delegate;
 @synthesize buttonTitles;
 @synthesize useMotionEffects;
+@synthesize closeOnTouchUpOutside;
 
 - (id)initWithParentView: (UIView *)_parentView
 {
@@ -45,6 +46,7 @@ CGFloat buttonSpacerHeight = 0;
 
         delegate = self;
         useMotionEffects = false;
+        closeOnTouchUpOutside = false;
         buttonTitles = @[@"Close"];
         
         [[UIDevice currentDevice] beginGeneratingDeviceOrientationNotifications];
@@ -443,6 +445,17 @@ CGFloat buttonSpacerHeight = 0;
 					 }
 					 completion:nil
 	 ];
+}
+
+- (void)touchesEnded:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event {
+    if (!closeOnTouchUpOutside) {
+        return;
+    }
+    
+    UITouch *touch = [touches anyObject];
+    if ([touch.view isKindOfClass:[CustomIOSAlertView class]]) {
+        [self close];
+    }
 }
 
 @end
