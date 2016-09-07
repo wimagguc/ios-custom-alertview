@@ -1,6 +1,6 @@
 # Custom iOS AlertView
 
-`v0.9.4`
+`v0.9.5`
 
 `support for iOS7+`
 
@@ -20,7 +20,7 @@ As simple as adding the following files to your project:
 Or use Cocoapods:
 
 ```
-pod 'CustomIOSAlertView', '~> 0.9.4'
+pod 'CustomIOSAlertView', '~> 0.9.5'
 ```
 
 ## Change notes
@@ -129,7 +129,7 @@ This is a really quick implementation, and there are a few things missing:
 * [@kwent](https://github.com/kwent) for adding performance optimisations
 * [@thomasaw](https://github.com/thomasaw) for the refract on the deprecated initWithParentview
 * [@yiboyu](https://github.com/yiboyu) for the multi-line button fix
-
+* [@logicxd](https://github.com/logicxd) for the close-on-touchup-outside code
 
 ## License
 

@@ -1,7 +1,7 @@
 Pod::Spec.new do |s|
 
   s.name         = "CustomIOSAlertView"
-  s.version      = "0.9.4"
+  s.version      = "0.9.5"
   s.summary      = "Custom UIAlertView. Continue adding images and UIViews to dialogs on iOS7+."
 
   s.description  = <<-DESC
@@ -21,7 +21,7 @@ Pod::Spec.new do |s|
 
   s.platform     = :ios
 
-  s.source       = { :git => "https://github.com/wimagguc/ios-custom-alertview.git", :tag => "0.9.4" }
+  s.source       = { :git => "https://github.com/wimagguc/ios-custom-alertview.git", :tag => "0.9.5" }
 
   s.source_files  = "CustomIOSAlertView/CustomIOSAlertView/View/**/*.{h,m}"
 
