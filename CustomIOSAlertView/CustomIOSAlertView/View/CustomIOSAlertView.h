@@ -39,6 +39,7 @@
 
 - (void)show;
 - (void)close;
+- (void)rotate;
 
 - (IBAction)customIOS7dialogButtonTouchUpInside:(id)sender;
 - (void)setOnButtonTouchUpInside:(void (^)(CustomIOSAlertView *alertView, int buttonIndex))onButtonTouchUpInside;
