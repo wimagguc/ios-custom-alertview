@@ -17,7 +17,7 @@ As simple as adding the following files to your project:
 * CustomIOSAlertView.h
 * CustomIOSAlertView.m
 
-Or use Cocoapods:
+Or use CocoaPods:
 
 ```
 pod 'CustomIOSAlertView', '~> 0.9.5'
