@@ -121,7 +121,14 @@ CGFloat buttonSpacerHeight = 0;
 
         }
 
-        [[[[UIApplication sharedApplication] windows] firstObject] addSubview:self];
+        UIWindow *window;
+        for (id subwindow in [[UIApplication sharedApplication] windows]) {
+            if ([subwindow isMemberOfClass:[UIWindow class]]) {
+                window = subwindow;
+                break;
+            }
+        }
+        [window addSubview:self];
     }
 
     dialogView.layer.opacity = 0.5f;
