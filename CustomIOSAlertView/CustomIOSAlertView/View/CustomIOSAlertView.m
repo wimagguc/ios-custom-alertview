@@ -130,8 +130,8 @@ CGFloat buttonSpacerHeight = 0;
     [UIView animateWithDuration:0.2f delay:0.0 options:UIViewAnimationOptionCurveEaseInOut
 					 animations:^{
 						 self.backgroundColor = [UIColor colorWithRed:0 green:0 blue:0 alpha:0.4f];
-                         dialogView.layer.opacity = 1.0f;
-                         dialogView.layer.transform = CATransform3DMakeScale(1, 1, 1);
+                         self->dialogView.layer.opacity = 1.0f;
+                         self->dialogView.layer.transform = CATransform3DMakeScale(1, 1, 1);
 					 }
 					 completion:NULL
      ];
@@ -174,8 +174,8 @@ CGFloat buttonSpacerHeight = 0;
     [UIView animateWithDuration:0.2f delay:0.0 options:UIViewAnimationOptionTransitionNone
 					 animations:^{
 						 self.backgroundColor = [UIColor colorWithRed:0.0f green:0.0f blue:0.0f alpha:0.0f];
-                         dialogView.layer.transform = CATransform3DConcat(currentTransform, CATransform3DMakeScale(0.6f, 0.6f, 1.0));
-                         dialogView.layer.opacity = 0.0f;
+                         self->dialogView.layer.transform = CATransform3DConcat(currentTransform, CATransform3DMakeScale(0.6f, 0.6f, 1.0));
+                         self->dialogView.layer.opacity = 0.0f;
 					 }
 					 completion:^(BOOL finished) {
                          for (UIView *v in [self subviews]) {
@@ -218,10 +218,27 @@ CGFloat buttonSpacerHeight = 0;
 
     CGFloat cornerRadius = kCustomIOSAlertViewCornerRadius;
     gradient.cornerRadius = cornerRadius;
-    [dialogContainer.layer insertSublayer:gradient atIndex:0];
-
+	
+    if (self.backgroundColor != nil)
+    {
+        dialogContainer.backgroundColor = self.backgroundColor;
+    }
+    else
+    {
+        [dialogContainer.layer insertSublayer:gradient atIndex:0];
+    }
+	
     dialogContainer.layer.cornerRadius = cornerRadius;
-    dialogContainer.layer.borderColor = [[UIColor colorWithRed:198.0/255.0 green:198.0/255.0 blue:198.0/255.0 alpha:1.0f] CGColor];
+	
+    if (self.borderColor != nil)
+    {
+        dialogContainer.layer.borderColor = [self.borderColor CGColor];
+    }
+    else
+    {
+        dialogContainer.layer.borderColor = [[UIColor colorWithRed:198.0/255.0 green:198.0/255.0 blue:198.0/255.0 alpha:1.0f] CGColor];
+    }
+	
     dialogContainer.layer.borderWidth = 1;
     dialogContainer.layer.shadowRadius = cornerRadius + 5;
     dialogContainer.layer.shadowOpacity = 0.1f;
@@ -231,7 +248,16 @@ CGFloat buttonSpacerHeight = 0;
 
     // There is a line above the button
     UIView *lineView = [[UIView alloc] initWithFrame:CGRectMake(0, dialogContainer.bounds.size.height - buttonHeight - buttonSpacerHeight, dialogContainer.bounds.size.width, buttonSpacerHeight)];
-    lineView.backgroundColor = [UIColor colorWithRed:198.0/255.0 green:198.0/255.0 blue:198.0/255.0 alpha:1.0f];
+	
+    if (self.borderColor != nil)
+    {
+        lineView.backgroundColor = self.borderColor;
+    }
+    else
+    {
+        lineView.backgroundColor = [UIColor colorWithRed:198.0/255.0 green:198.0/255.0 blue:198.0/255.0 alpha:1.0f];
+    }	
+	
     [dialogContainer addSubview:lineView];
     // ^^^
 
@@ -370,7 +396,7 @@ CGFloat buttonSpacerHeight = 0;
 
     [UIView animateWithDuration:0.2f delay:0.0 options:UIViewAnimationOptionTransitionNone
                      animations:^{
-                         dialogView.transform = rotation;
+                         self->dialogView.transform = rotation;
                          
                      }
                      completion:nil
@@ -389,7 +415,7 @@ CGFloat buttonSpacerHeight = 0;
                          CGSize dialogSize = [self countDialogSize];
                          CGSize keyboardSize = [[[notification userInfo] objectForKey:UIKeyboardFrameBeginUserInfoKey] CGRectValue].size;
                          self.frame = CGRectMake(0, 0, screenWidth, screenHeight);
-                         dialogView.frame = CGRectMake((screenWidth - dialogSize.width) / 2, (screenHeight - keyboardSize.height - dialogSize.height) / 2, dialogSize.width, dialogSize.height);
+                         self->dialogView.frame = CGRectMake((screenWidth - dialogSize.width) / 2, (screenHeight - keyboardSize.height - dialogSize.height) / 2, dialogSize.width, dialogSize.height);
                      }
                      completion:nil
      ];
@@ -428,7 +454,7 @@ CGFloat buttonSpacerHeight = 0;
 
     [UIView animateWithDuration:0.2f delay:0.0 options:UIViewAnimationOptionTransitionNone
 					 animations:^{
-                         dialogView.frame = CGRectMake((screenSize.width - dialogSize.width) / 2, (screenSize.height - keyboardSize.height - dialogSize.height) / 2, dialogSize.width, dialogSize.height);
+                         self->dialogView.frame = CGRectMake((screenSize.width - dialogSize.width) / 2, (screenSize.height - keyboardSize.height - dialogSize.height) / 2, dialogSize.width, dialogSize.height);
 					 }
 					 completion:nil
 	 ];
@@ -441,7 +467,7 @@ CGFloat buttonSpacerHeight = 0;
 
     [UIView animateWithDuration:0.2f delay:0.0 options:UIViewAnimationOptionTransitionNone
 					 animations:^{
-                         dialogView.frame = CGRectMake((screenSize.width - dialogSize.width) / 2, (screenSize.height - dialogSize.height) / 2, dialogSize.width, dialogSize.height);
+                         self->dialogView.frame = CGRectMake((screenSize.width - dialogSize.width) / 2, (screenSize.height - dialogSize.height) / 2, dialogSize.width, dialogSize.height);
 					 }
 					 completion:nil
 	 ];
