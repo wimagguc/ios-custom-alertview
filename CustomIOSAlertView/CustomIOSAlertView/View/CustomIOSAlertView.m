@@ -218,10 +218,27 @@ CGFloat buttonSpacerHeight = 0;
 
     CGFloat cornerRadius = kCustomIOSAlertViewCornerRadius;
     gradient.cornerRadius = cornerRadius;
-    [dialogContainer.layer insertSublayer:gradient atIndex:0];
-
+	
+    if (self.backgroundColor != nil)
+    {
+        dialogContainer.backgroundColor = self.backgroundColor;
+    }
+    else
+    {
+        [dialogContainer.layer insertSublayer:gradient atIndex:0];
+    }
+	
     dialogContainer.layer.cornerRadius = cornerRadius;
-    dialogContainer.layer.borderColor = [[UIColor colorWithRed:198.0/255.0 green:198.0/255.0 blue:198.0/255.0 alpha:1.0f] CGColor];
+	
+    if (self.borderColor != nil)
+    {
+        dialogContainer.layer.borderColor = [self.borderColor CGColor];
+    }
+    else
+    {
+        dialogContainer.layer.borderColor = [[UIColor colorWithRed:198.0/255.0 green:198.0/255.0 blue:198.0/255.0 alpha:1.0f] CGColor];
+    }
+	
     dialogContainer.layer.borderWidth = 1;
     dialogContainer.layer.shadowRadius = cornerRadius + 5;
     dialogContainer.layer.shadowOpacity = 0.1f;
