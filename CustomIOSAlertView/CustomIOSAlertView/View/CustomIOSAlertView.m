@@ -251,7 +251,7 @@ CGFloat buttonSpacerHeight = 0;
 	
     if (self.borderColor != nil)
     {
-        lineView.backgroundColor = [self.borderColor CGColor];
+        lineView.backgroundColor = self.borderColor;
     }
     else
     {
