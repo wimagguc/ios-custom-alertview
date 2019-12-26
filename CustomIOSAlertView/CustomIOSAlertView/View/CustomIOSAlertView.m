@@ -248,7 +248,16 @@ CGFloat buttonSpacerHeight = 0;
 
     // There is a line above the button
     UIView *lineView = [[UIView alloc] initWithFrame:CGRectMake(0, dialogContainer.bounds.size.height - buttonHeight - buttonSpacerHeight, dialogContainer.bounds.size.width, buttonSpacerHeight)];
-    lineView.backgroundColor = [UIColor colorWithRed:198.0/255.0 green:198.0/255.0 blue:198.0/255.0 alpha:1.0f];
+	
+    if (self.borderColor != nil)
+    {
+        lineView.backgroundColor = [self.borderColor CGColor];
+    }
+    else
+    {
+        lineView.backgroundColor = [UIColor colorWithRed:198.0/255.0 green:198.0/255.0 blue:198.0/255.0 alpha:1.0f];
+    }	
+	
     [dialogContainer addSubview:lineView];
     // ^^^
 
